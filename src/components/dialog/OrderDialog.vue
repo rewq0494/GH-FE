@@ -1,117 +1,105 @@
 <template>
-    <div class="overlay"></div>
+  <div class="overlay"></div>
   <div class="meetint-info-dialog">
-   <h2>訂單資訊1</h2>
-<div class="info-area">
-    <h3 id="od-number">訂單編號：{{orderId }}</h3>
-   <label>
-    <div class="h3-box"><h3>日期</h3></div>
-    <div class="data-box">{{date }}</div>
-  </label>
-
-
-  <label>
-    <div class="h3-box"><h3>時間</h3></div>
-    <div class="data-box">{{time}}</div>
-  </label>
-
-  <label>
-  <div class="h3-box"><h3>場地</h3></div>
-    <div class="data-box">{{space}}</div>
-    </label>
-
-  <label>
-    <div class="h3-box"><h3>活動名稱</h3></div>
-    <div class="data-box">{{eventName }}</div>
-  </label>
-
-  <label>
-    <div class="h3-box"><h3>公司名稱</h3></div>
-    <div class="data-box">{{company }}</div>
-  </label>
-
-  <label>
-    <div class="h3-box"><h3>統編</h3></div>
-    <div class="data-box">{{companyId}}</div>
-  </label>
-
-  <label>
-    <div class="h3-box"><h3>聯絡人</h3></div>
-    <div class="data-box">{{contentPerson }}</div>
-  </label>
-
-  <label>
-    <div class="h3-box"><h3>電話</h3></div>
-    <div class="data-box">{{phone}}</div>
-  </label>
-
-  <label>
-    <div class="h3-box"><h3>信箱</h3></div>
-    <div class="data-box">{{mail}}</div>
-  </label>
-
-  <label>
-    <div class="note-box">
-        <div class="note-h3-box">
-             <h3>備註</h3>
+    <h2>訂單資訊1</h2>
+    <div class="info-area">
+      <h3 id="od-number">訂單編號：{{ orderId }}</h3>
+      <label>
+        <div class="h3-box"><h3>日期</h3></div>
+        <div class="data-box">{{ date }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>時間</h3></div>
+        <div class="data-box">{{ time }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>場地</h3></div>
+        <div class="data-box">{{ space }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>活動名稱</h3></div>
+        <div class="data-box">{{ eventName }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>公司名稱</h3></div>
+        <div class="data-box">{{ company }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>統編</h3></div>
+        <div class="data-box">{{ companyId }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>聯絡人</h3></div>
+        <div class="data-box">{{ contentPerson }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>電話</h3></div>
+        <div class="data-box">{{ phone }}</div>
+      </label>
+      <label>
+        <div class="h3-box"><h3>信箱</h3></div>
+        <div class="data-box">{{ mail }}</div>
+      </label>
+      <label>
+        <div class="note-box">
+          <div class="note-h3-box">
+            <h3>備註</h3>
+          </div>
+          <div class="note-text">{{ note }}</div>
         </div>
-    <div class="note-text">{{note}}</div>
+      </label>
+      <div class="deposit"><h3>訂金：</h3><p>{{ deposit }}</p></div>
+      <div class="total"><h3>總額：</h3><p>{{ total }}</p></div>
     </div>
-  </label>
-
-  <div class=" deposit"><h3>訂金：</h3><p>{{ deposit }}</p></div>
-  <div class="total"><h3>總額：</h3><p>{{total}}</p></div>
-  
-  
-</div>
-<button class="btn-edit" @click="handleConfirm">修改訂單</button>
-   <button class="btn-cancle" @click="closeDialog">取消訂單</button>
+    <button class="btn-edit" @click="handleConfirm">修改訂單</button>
+    <button class="btn-cancle" @click="closeDialog">取消訂單</button>
   </div>
   <EditOrderDialog v-if="showEditOrderDialog" @close="closeEditOrderDialog" />
-
 </template>
+
 <script>
-  import EditOrderDialog from '../dialog/EditOrderDialog.vue';
+import EditOrderDialog from '../dialog/EditOrderDialog.vue';
+
 export default {
-//  
-  components:{
+  emits: ['close', 'confirm','edit'],
+  components: {
     EditOrderDialog,
   },
   data() {
-  return {
-        "orderId": "2064856",
-        "date": "2021/09/17",
-        "time": "09:00-12:00",
-        "eventName": "光明高中2022音樂會",
-        "space": "A",
-        "contentPerson": "小飛象",
-        "company": "美商迪士尼科技股份有限公司",
-        "companyId ": "24968746",
-        "phone": "04-7961-8956",
-        "mail": "ajkldie@gmail.com",
-        "note": "這裡是備註內容",
-        "deposit":"$2100",
-        "total":"$4700",
-
-      
-    showDialog: false,
-    showEditOrderDialog: false
-  }
-},
+    return {
+      orderId: '2064856',
+      date: '2021/09/17',
+      time: '09:00-12:00',
+      eventName: '光明高中2022音樂會',
+      space: 'A',
+      contentPerson: '小飛象',
+      company: '美商迪士尼科技股份有限公司',
+      companyId: '24968746',
+      phone: '04-7961-8956',
+      mail: 'ajkldie@gmail.com',
+      note: '這裡是備註內容',
+      deposit: '$2100',
+      total: '$4700',
+      showDialog: false,
+      // showOrderDialog: false, // 新增這行
+      showEditOrderDialog: false,
+      closeEditOrderDialog: false
+    };
+  },
   methods: {
     closeDialog() {
       this.$emit('cancle');
     },
     handleConfirm() {
+      console.log('開啟修改窗');
       this.$emit('edit');
+      // this.$emit('close'); 
       this.showEditOrderDialog = true;
-},
-      // 处理确定按钮的逻辑
-      // 在这里可以进行一些处理操作
-      // 如果需要将处理结果传递给父组件或其他地方，可以使用$emit来触发事件
-    }
-  };
+    },
+  },
+};
 </script>
+
 
 <style scoped>
 *{

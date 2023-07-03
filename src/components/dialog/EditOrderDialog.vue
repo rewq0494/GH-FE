@@ -50,6 +50,7 @@
 <script>
   import EditSuccessDialog from './EditSuccessDialog.vue';
 export default {
+  emits: ['close'],
 //  
   components:{
     EditSuccessDialog,
@@ -57,7 +58,8 @@ export default {
   data() {
   return {
     showDialog: false,
-    showSuccessDialog: false
+    showSuccessDialog: false,
+    showEditOrderDialog: false,
   }
 },
   methods: {
