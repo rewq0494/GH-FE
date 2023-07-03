@@ -1,3 +1,4 @@
+<!-- 10:30TEST -->
 <template>
     <div>
       <button type="button" class="info-btn" @click="openDialog">詳細資訊
