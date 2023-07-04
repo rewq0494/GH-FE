@@ -116,10 +116,10 @@
         },
         {
           "office": "I505",
-          "company": "光泉股份有限公司",
-          "startDate": "2021/08/08", 
-          "endDate": "2022/08/07",
-          "rent": "$17000",
+          "company": "",
+          "startDate": "", 
+          "endDate": "",
+          "rent": "$10700",
           "status": ""
         },
         {
