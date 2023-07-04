@@ -2,10 +2,10 @@
   <div>
     <button type="button" class="info-btn" @click="openDialog">詳細資訊</button>
     <div v-if="showDialog">
-      <dialog-box @close="closeDialog" @confirm="openEditOrderDialog" />
+      <dialog-box @close="closeDialog" @edit="openEditOrderDialog" />
     </div>
     <edit-order-dialog v-if="showEditOrderDialog" @close="closeDialog" @confirm="openSuccessDialog" />
-    <edit-success-dialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
+    <edit-success-dialog v-if="showSuccessDialog" @close="closeSuccessDialog" @confirm="editOrderDialog" />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
       showDialog: false,
       showSuccessDialog: false,
       showEditOrderDialog: false,
-      openEditOrderDialog: false,
+      // openEditOrderDialog: false,
    
     };
   },
@@ -49,7 +49,11 @@ export default {
     closeSuccessDialog() {
       this.showSuccessDialog = false;
     },
-    
+    openEditOrderDialog(){
+      this.showDialog = false;
+      this.showEditOrderDialog = true; 
+    },
+   
   },
 };
 </script>
