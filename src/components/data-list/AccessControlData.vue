@@ -25,7 +25,7 @@
                     <td>{{ member.position }}</td>
                     <td>{{ member.email }}</td>
                     <td>{{ member.note }}</td>
-                    <td><EditMbButton/></td>
+                    <td><EditAccessButton/></td>
                     <td><DeleteMbButton/></td>
                 </tr>
             </tbody>
@@ -34,14 +34,14 @@
 </template>
   
 <script>
-  import EditMbButton from '../button/EditMbButton.vue';
+  import EditAccessButton from '../button/EditAccessButton.vue';
   import DeleteMbButton from '../button/DeleteMbButton.vue';
   export default {
     props: {
     filterKey: String,
   },
   components:{
-    EditMbButton,
+    EditAccessButton,
     DeleteMbButton,
   },
     data() {

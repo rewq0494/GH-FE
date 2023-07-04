@@ -1,6 +1,6 @@
 <template>
   <div class="title">權限管理</div>
-  <AddButton />
+  <AddAccessButton />
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
     <AccessControlData :filter-key="searchQuery" />
@@ -10,7 +10,7 @@
 
 <script>
 import SearchButton from '../components/button/SearchButton.vue';
-import AddButton from '../components/button/AddButton.vue';
+import AddAccessButton from '../components/button/AddAccessButton.vue';
 import AccessControlData from '../components/data-list/AccessControlData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
 
@@ -18,7 +18,7 @@ export default {
 name: 'MemberList',
 components: {
   SearchButton,
-  AddButton,
+  AddAccessButton,
   AccessControlData,
   AddMemberDialog,
 
