@@ -52,7 +52,7 @@
       return {
         members: [
           {
-            company: '迪士尼有限公司',
+            company: '迪士八有限公司',
             name: '米奇',
             phone: '123-456-7890',
             email: 'john@example.com',
