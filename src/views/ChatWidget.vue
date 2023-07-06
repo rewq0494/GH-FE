@@ -16,10 +16,13 @@
       <div class="selected-member">{{ selectedMember.name }}</div>
       <div class="chat-messages">
         <div v-for="message in getMessagesForSelectedMember" :key="message.id" :class="{'message-container': true, 'sender-container': message.sender === '你', 'receiver-container': message.sender !== '你'}">
-          <div :class="{'sender':true, 'sender-name':message.sender === '你','receiver-name': message.sender !== '你'}">{{ message.sender }}</div>
+  <div :class="{'sender':true, 'sender-name':message.sender === '你','receiver-name': message.sender !== '你'}">{{ message.sender }}</div>
+  <div class="flex-container">
   <div :class="{'message': true, 'sender-message': message.sender === '你', 'receiver-message': message.sender !== '你'}">
-          <div class="content">{{ message.content }}</div>
-        </div></div>
+    <div class="content">{{ message.content }}</div>
+  </div>
+  <div :class="{'time': true, 'sender-time': message.sender === '你', 'receiver-time': message.sender !== '你'}" v-if="message.time">{{ message.time }}</div> <!-- 添加显示时间的元素 -->
+</div></div>
       </div>
       <div class="chat-input">
         <input v-model="inputMessage" @keydown.enter="sendMessage" placeholder="請輸入訊息..." />
@@ -64,22 +67,29 @@ export default {
       this.selectedMember = member;
     },
     sendMessage() {
-      if (this.selectedMember && this.inputMessage.trim() !== '') {
-        const newMessage = {
-          id: this.selectedMember.messages.length + 1,
-          sender: '你',
-          content: this.inputMessage.trim(),
-        };
-        this.selectedMember.messages.push(newMessage);
-        this.inputMessage = '';
-      }
-    },
+  if (this.selectedMember && this.inputMessage.trim() !== '') {
+    const newMessage = {
+      id: this.selectedMember.messages.length + 1,
+      sender: '你',
+      content: this.inputMessage.trim(),
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    this.selectedMember.messages.push(newMessage);
+    this.inputMessage = '';
+  }
+}
   },
 };
 </script>
 
 
 <style scoped>
+.flex-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
 .chat-member{
   height: 620px;
   width: 400px;
@@ -155,7 +165,7 @@ export default {
 }
 
 .receiver-container {
-  min-height: 50px;
+  min-height: 56px;
   position: relative;
   margin-top: 1px;
   margin-left: 0;
@@ -199,6 +209,7 @@ export default {
 .sender-name{
   color: rgb(0, 255, 132);
   position: absolute;
+  margin-bottom: 10px;
   right: 10px;
 }
 .receiver-name{
@@ -209,18 +220,36 @@ export default {
 }
 
 .sender-message {
+  display: inline-block;
   position: absolute;
-  right: 8px;
+  top:12px;
+  right: 10px;
   background-color: #fcd587;
+  flex-wrap: wrap;
+  margin-left: 10px; 
 }
 
 .receiver-message {
   position: absolute;
-  top:10px;
+  top:12px;
   left: 10px;
   background-color: #f5f5f5;
+  flex-wrap: wrap;
 }
-
+.time{
+  position: absolute;
+  transform: translateY(200%);
+  font-size: 12px;
+}
+.sender-time{
+  display: inline-block;
+  position: relative;
+  left: 1px; /* 将左侧位置调整为 -1px，与 .sender-message 右侧相隔 1px */
+  color: #ffaa3a;
+}
+.receiver-time{
+  color: #3aff47;
+}
 .chat-input {
   display: flex;
 }
