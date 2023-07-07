@@ -2,8 +2,8 @@
     <div id="app">
       <SidebarMenu/>
 
+      <router-view></router-view>
     </div>
-    <router-view></router-view>
   </template>
   <!-- ----------------------------------------------------- -->
   <script>
@@ -11,7 +11,7 @@
   import SidebarMenu from '../components/SidebarMenu.vue'
 
   export default {
-    name: 'App',
+    name: 'IndexPage',
     components: {
         SidebarMenu,
 
