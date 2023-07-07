@@ -43,7 +43,7 @@
           <td>{{ order.meetingroomId }}</td>
           <td>{{ order.memberName }}</td>
           <td>
-            <OrderInfoButton />
+            <OrderInfoButton :tradeNo="order.tradeNo" />
           </td>
         </tr>
       </tbody>

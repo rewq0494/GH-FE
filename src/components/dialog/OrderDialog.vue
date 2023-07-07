@@ -4,7 +4,7 @@
     <h2>訂單資訊</h2>
     <button class="btn-close" @click="closeDialog">╳</button>
     <div class="info-area">
-      <h3 id="od-number">訂單編號：{{ orderId }}</h3>
+      <h3 id="od-number">訂單編號：{{ tradeNo }}</h3>
 
       <label v-for="(field, index) in fields" :key="index">
         <div :class="['h3-box', field.label === '備註' ? 'note-div' : '']">
@@ -36,10 +36,16 @@ export default {
   components: {
     CancleOrderButton
   },
+  props: {
+    tradeNo: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       note: '這裡是備註內容',
-      total: '$4700',
+      total: '',
       showDialog: false,
       eventNameInput: '',
       editing: false,
@@ -133,10 +139,11 @@ export default {
 
     },
     fetchData() {
+      const tradeNo = this.tradeNo;
       axios
-        .get(`http://localhost:8080/meetings/details/GH000000`)
+        .get(`http://localhost:8080/meetings/details/${tradeNo}`)
         .then(response => {
-          console.log(this.fetchData)
+          console.log(this.fetchData);
           const data = response.data;
           this.fields[0].value = data.rentalDate;
           this.fields[1].value = data.rentalTime;
