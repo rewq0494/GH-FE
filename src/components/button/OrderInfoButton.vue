@@ -15,9 +15,9 @@ import EditOrderDialog from '../dialog/EditOrderDialog.vue';
 import EditSuccessDialog from '../dialog/EditSuccessDialog.vue';
 
 export default {
-  emits: ['edit','close'],
+  emits: ['edit', 'close'],
   components: {
-    'dialog-box': OrderDialog,    
+    'dialog-box': OrderDialog,
     'edit-order-dialog': EditOrderDialog,
     'edit-success-dialog': EditSuccessDialog,
   },
@@ -27,20 +27,20 @@ export default {
       showSuccessDialog: false,
       showEditOrderDialog: false,
       // openEditOrderDialog: false,
-   
+
     };
   },
   methods: {
     openDialog() {
       console.log('按鈕反應');
-      this.showDialog = true; 
+      this.showDialog = true;
     },
     closeDialog() {
       this.showDialog = false;
     },
     openSuccessDialog() {
       this.showDialog = false;
-      this.showEditOrderDialog = false; 
+      this.showEditOrderDialog = false;
       this.showSuccessDialog = true;
       setTimeout(() => {
         this.closeSuccessDialog();
@@ -49,25 +49,24 @@ export default {
     closeSuccessDialog() {
       this.showSuccessDialog = false;
     },
-    openEditOrderDialog(){
+    openEditOrderDialog() {
       this.showDialog = false;
-      this.showEditOrderDialog = true; 
+      this.showEditOrderDialog = true;
     },
-   
+
   },
 };
 </script>
 
   
-    <style  scoped>
-   
-     button{
-        color: #fff;
-        width: 90px;
-        height: 25px;
-        border: 0px;
-        border-radius: 20px;
-        background-color:#F8B470 ;
-        cursor: pointer;
-     }
-    </style>
+<style  scoped>
+button {
+  color: #fff;
+  width: 90px;
+  height: 25px;
+  border: 0px;
+  border-radius: 20px;
+  background-color: #F8B470;
+  cursor: pointer;
+}
+</style>
