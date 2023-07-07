@@ -30,6 +30,7 @@
 <script>
 import axios from 'axios';
 import CancleOrderButton from '../button/CanaleOrderButton.vue';
+import moment from 'moment';
 
 export default {
   emits: ['close', 'confirm', 'edit'],
@@ -132,8 +133,34 @@ export default {
       });
       this.eventName = this.eventNameInput;
       this.editing = false;
-      this.$emit('confirm');
       this.$emit('confirm', this.eventName);
+
+      // 更新 API 請求
+      const tradeNo = this.tradeNo;
+      const updatedData = {
+        rentalDate: this.fields[0].value,
+        rentalTime: this.fields[1].value,
+        meetingroomId: this.fields[2].value,
+        activityName: this.fields[3].value,
+        companyName: this.fields[5].value,
+        companyTaxid: this.fields[6].value,
+        memberName: this.fields[4].value,
+        memberPhone: this.fields[7].value,
+        memberEmail: this.fields[8].value,
+        remark: this.fields[9].value,
+        totalAmount: this.total
+      };
+
+      axios.put(`http://localhost:8080/meetings/update/${tradeNo}`, updatedData)
+        .then(response => {
+          // 成功處理更新回應
+          console.log(response);
+          // 可以執行一些成功更新後的操作
+        })
+        .catch(error => {
+          // 處理更新失敗
+          console.error(error);
+        });
     },
     cancleOrder() {
 
@@ -145,7 +172,7 @@ export default {
         .then(response => {
           console.log(this.fetchData);
           const data = response.data;
-          this.fields[0].value = data.rentalDate;
+          this.fields[0].value = moment(data.rentalDate).format('YYYY-MM-DD');
           this.fields[1].value = data.rentalTime;
           this.fields[2].value = data.meetingroomId;
           this.fields[3].value = data.activityName;
@@ -155,6 +182,7 @@ export default {
           this.fields[7].value = data.member.memberPhone;
           this.fields[8].value = data.member.memberEmail;
           this.fields[9].value = data.remark;
+          this.total = data.totalAmount;
         })
         .catch(error => {
           console.log(error);
