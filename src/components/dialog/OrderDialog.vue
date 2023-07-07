@@ -22,7 +22,7 @@
     </div>
     <button v-if="!editing" class="btn-edit" @click="startEditing">修改訂單</button>
     <button v-else class="btn-confirm" @click="confirmEdit">確認修改</button>
-    <!-- <button class="btn-cancle" @click="cancleOrder">取消訂單</button> -->
+    <button class="btn-cancle" @click="cancleOrder">取消訂單</button>
     <CancleOrderButton />
   </div>
 </template>
