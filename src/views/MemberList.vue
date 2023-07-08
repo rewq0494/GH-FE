@@ -1,4 +1,5 @@
   <template>
+    <SidebarMenu/>
     <div class="title">會員資訊</div>
     <AddButton />
     <SearchButton @search="updateSearchQuery" />
@@ -14,8 +15,8 @@ import SearchButton from '../components/button/SearchButton.vue';
 import AddButton from '../components/button/AddButton.vue';
 import MemberData from '../components/data-list/MemberData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
-// import AddSuccessDialog from '../components/dialog/AddSuccessDialog.vue';
-
+import SidebarMenu from '../components/SidebarMenu.vue'
+  
 export default {
   name: 'MemberList',
   components: {
@@ -23,6 +24,7 @@ export default {
     AddButton,
     MemberData,
     AddMemberDialog,
+    SidebarMenu,
     // AddSuccessDialog,
 
   },

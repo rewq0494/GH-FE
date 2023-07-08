@@ -1,4 +1,5 @@
 <template>
+  <SidebarMenu/>
   <div class="title">合約管理</div>
   <AddContractButton />
   <SearchButton @search="updateSearchQuery" />
@@ -14,7 +15,8 @@ import SearchButton from '../components/button/SearchButton.vue';
 import AddContractButton from '../components/button/AddContractButton.vue';
 import ContractData from '../components/data-list/ContractData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
-// import AddSuccessDialog from '../components/dialog/AddSuccessDialog.vue';
+import SidebarMenu from '../components/SidebarMenu.vue'
+
 
 export default {
 name: 'MemberList',
@@ -23,7 +25,7 @@ components: {
   AddContractButton,
   ContractData,
   AddMemberDialog,
-  // AddSuccessDialog,
+  SidebarMenu,
 
 },
 data() {

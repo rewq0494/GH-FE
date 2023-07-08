@@ -1,5 +1,6 @@
 <template>
   <div>
+    <SidebarMenu/>
     <div class="chat-member-title">訪客</div>
     <div class="chat-member">
       <div
@@ -41,8 +42,13 @@
 </template>
 
 <script>
+import SidebarMenu from '../components/SidebarMenu.vue'
+
 export default {
   name: 'ChatWidget',
+  components:{
+    SidebarMenu,
+  },
   data() {
     return {
       // members: [
