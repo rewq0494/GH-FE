@@ -1,26 +1,30 @@
 <template>
   <div>
+    <SidebarMenu />
     <div class="title">會議教室</div>
+    <AddOrderButton />
     <SearchButton @search="updateSearchQuery" />
     <div class="main-section">
-      <MeetingData :data="filteredOrders" :sort-key="sortKey" :sort-orders="sortOrders" @sort-by-key="sortBy" />
+      <MeetingData :data="filteredOrders" :sort-key="sortKey" :sort-orders="sortOrders" @sort-by-key="sortBy"
+        :filter-key="searchQuery" />
     </div>
-    <AddMemberDialog v-if="showDialog" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import SearchButton from '../components/button/SearchButton.vue';
 import MeetingData from '../components/data-list/MeetingData.vue';
-import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
+import SidebarMenu from '../components/SidebarMenu.vue'
+import AddOrderButton from '../components/button/AddOrderButton.vue'
 import axios from 'axios';
 
 export default {
-  name: 'MeetingSchedule',
+  name: 'MemberList',
   components: {
     SearchButton,
     MeetingData,
-    AddMemberDialog,
+    SidebarMenu,
+    AddOrderButton,
   },
   data() {
     return {
