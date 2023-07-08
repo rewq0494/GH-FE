@@ -74,7 +74,6 @@ export default {
           return String(row[key]).toLowerCase().includes(filterKey);
         });
       });
-      this.sortOrders();
     },
     sortBy(key) {
       if (this.sortKey === key) {
