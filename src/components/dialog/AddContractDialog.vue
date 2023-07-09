@@ -115,7 +115,7 @@ export default {
     
   
 
-      await axios({ method: 'post', url: 'http://localhost:8080/contracts/backstage-add-new-contract', data: { companyName: 'TEST', inCharge: 'TEST', memberPhone: '0956789012', officeId: 'OF003', companyTaxid: '000', paymentMethod: 'CARD', startDate: this.startDate, endDate: this.endDate, remark: 'TEST', uploadFile:blobfile}, headers: { "Content-Type": 'multipart/form-data' } })
+      await axios({ method: 'post', url: 'http://localhost:8080/contracts/backstage-add-new-contract', data: { companyName:this.companyName , inCharge:this.inCharge, memberPhone:this.memberPhone , officeId:this.officeId , companyTaxid:this.companyTaxid , paymentMethod:this.paymentMethod , startDate: this.startDate, endDate: this.endDate, remark:this.remark , uploadFile:blobfile}, headers: { "Content-Type": 'multipart/form-data' } })
 
  
 

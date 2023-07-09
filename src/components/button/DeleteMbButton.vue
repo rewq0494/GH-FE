@@ -14,6 +14,7 @@
 
 import DeleteMemberDialog from '../dialog/DeleteMemberDialog.vue';
 import DeleteSuccessDialog from '../dialog/DeleteSuccessDialog.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -27,8 +28,8 @@ export default {
     };
 
 
-    
-  },props:
+
+  }, props:
     ['contractId']
   ,
 
@@ -42,42 +43,46 @@ export default {
     },
     openSuccessDialog() {
 
-      // axios
-      // .delete("http://localhost:8080/contracts/contract")
-      // .then((response) => {
-      //   this.members =response.data;
-      // });
+      axios
+        .delete("http://localhost:8080/contracts/delete_contract_id", {
+          data: {
+            contractId: this.contractId
+          }
+        }).then(() => {
+          console.log(123456)
+          this.showDialog = false;
+          this.showSuccessDialog = true;
+          setTimeout(() => {
+            this.closeSuccessDialog(), 1200
+          })
+        }
+        )
 
-
-      this.showDialog = false;
-      this.showSuccessDialog = true;
-    
-      this.closeSuccessDialog();
-   
     },
     closeSuccessDialog() {
       this.showSuccessDialog = false;
     },
 
-   
+
   },
 };
 </script>
 
-  <style  scoped>
-  *{
+<style  scoped>
+* {
   font-family: '微軟正黑體';
 }
-      button{
-        border: 0px;
-        background-color:#FDF4E6 ;
-        cursor: pointer;
- }
-  
-  .icon-delete{
-      width: 20px;
-      height: 20px;
-      margin-top: 1px;
-      margin-left: -2px;
-  }
-  </style>
+
+button {
+  border: 0px;
+  background-color: #FDF4E6;
+  cursor: pointer;
+}
+
+.icon-delete {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  margin-left: -2px;
+}
+</style>
