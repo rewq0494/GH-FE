@@ -21,15 +21,15 @@
         </table>
         <table class="tbody-table">
             <tbody>
-                <tr v-for="member in filteredMembers" :key="member.id">
-                    <td>{{ member.id }}</td>
+                <tr v-for="member in filteredMembers" :key="member.companyTaxid" > 
+                    <td>{{ member.companyTaxid }}</td>
                     <td>{{ member.company }}</td>
                     <td>{{ member.RPerson }}</td>
-                    <td>{{ member.startDate }}</td>
-                    <td>{{ member.endDate }}</td>
+                    <td>{{ member.startDate  }}</td>
+                    <td>{{ member.endDate  }}</td>
                     <td>{{ member.contract }}</td>
                     <td><EditContractButton/></td>
-                    <td><DeleteMbButton/></td>
+                    <td><DeleteMbButton :contractId="member.contractId"/></td>
                 </tr>
             </tbody>
         </table>
@@ -37,8 +37,10 @@
 </template>
   
 <script>
+
   import EditContractButton from '../button/EditContractButton.vue';
   import DeleteMbButton from '../button/DeleteMbButton.vue';
+  import axios from 'axios'; 
   export default {
     props: {
     filterKey: String,
@@ -49,95 +51,7 @@
   },
     data() {
       return {
-        members: [
-        {
-          "id": "82647913",
-          "company": "美商迪士尼科技股份有限公司",
-          "RPerson": "米奇",
-          "startDate": "2021/09/17",
-          "endDate": "2022/09/16",
-          "contract":"合約",
-        },
-        {
-          "id": "94675681",
-          "company": "美商皮克斯有限公司",
-          "RPerson": "毛怪",
-          "startDate": "2021/01/01",
-          "endDate": "2021/12/31",
-          "contract":"合約",
-        },
-        {
-          "id": "67913584",
-          "company": "美商幼幼有限公司",
-          "RPerson": "屁屁偵探",
-          "startDate": "2021/02/15",
-          "endDate": "2022/02/14",
-        },
-        {
-          "id": "46855588",
-          "company": "美商默默科技有限公司",
-          "RPerson": "波利",
-          "startDate": "2021/03/10",
-          "endDate": "2022/03/09",
-          "contract":"合約",
-        },
-        {
-          "id": "75626562",
-          "company": "東森有限公司",
-          "RPerson": "米妮",
-          "startDate": "2021/04/20",
-          "endDate": "2022/04/19",
-          "contract":"合約",
-        },
-        {
-          "id": "46795135",
-          "company": "GTV有限公司",
-          "RPerson": "安寶",
-          "startDate": "2021/05/05",
-          "endDate": "2022/05/04",
-          "contract":"合約",
-        },
-        {
-          "id": "45695871",
-          "company": "緯來有限公司",
-          "RPerson": "阿奇",
-          "startDate": "2021/06/15",
-          "endDate": "2022/06/14",
-          "contract":"合約",
-        },
-        {
-          "id": "16479546",
-          "company": "HBO有限公司",
-          "RPerson": "獅子丸",
-          "startDate": "2021/07/25",
-          "endDate": "2022/07/24",
-          "contract":"合約",
-        },
-        {
-          "id": "56554989",
-          "company": "緯來有限公司",
-          "RPerson": "阿奇",
-          "startDate": "2021/08/08",
-          "endDate": "2022/08/07",
-          "contract":"合約",
-        },
-        {
-          "id": "46856795",
-          "company": "HBO有限公司",
-          "RPerson": "獅子丸",
-          "startDate": "2021/09/18",
-          "endDate": "2022/09/17",
-          "contract":"合約",
-        },
-        {
-          "id": "28594761",
-          "company": "光泉股份有限公司",
-          "RPerson": "夢子",
-          "startDate": "2021/10/30",
-          "endDate": "2022/10/29",
-          "contract":"合約",
-        }
-      ],
+        members: [],
         sortKey: '',
         sortOrders: {
             company: 1,
@@ -149,10 +63,25 @@
         searchQuery: ''
       };
     },
+   created() {
+    axios
+      .get("http://localhost:8080/contracts/contract")
+      .then((response) => {
+        this.members =response.data;
+      });
+  },
     computed: {
     filteredMembers() {
       const filterKey = this.filterKey.toLowerCase();
-      let data = this.members;
+      let data = this.members.map(data=>{
+        return {
+          ...data,
+          startDate:data.startDate.substring(0,10),
+          endDate:data.endDate.substring(0,10)
+        }
+      })
+
+
 
       if (filterKey) {
         data = data.filter((row) => {
@@ -178,7 +107,8 @@
       }
 
       return data;
-    }
+    },
+  
   },
   methods: {
     sortBy(key) {

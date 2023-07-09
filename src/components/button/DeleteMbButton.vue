@@ -11,6 +11,7 @@
 </template>
 
 <script>
+
 import DeleteMemberDialog from '../dialog/DeleteMemberDialog.vue';
 import DeleteSuccessDialog from '../dialog/DeleteSuccessDialog.vue';
 
@@ -24,25 +25,41 @@ export default {
       showDialog: false,
       showSuccessDialog: false,
     };
-  },
+
+
+    
+  },props:
+    ['contractId']
+  ,
+
   methods: {
     openDialog() {
-      console.log('按鈕反應');
+      console.log(this.contractId);
       this.showDialog = true;
     },
     closeDialog() {
       this.showDialog = false;
     },
     openSuccessDialog() {
+
+      // axios
+      // .delete("http://localhost:8080/contracts/contract")
+      // .then((response) => {
+      //   this.members =response.data;
+      // });
+
+
       this.showDialog = false;
       this.showSuccessDialog = true;
-      setTimeout(() => {
-        this.closeSuccessDialog();
-      }, 1200);
+    
+      this.closeSuccessDialog();
+   
     },
     closeSuccessDialog() {
       this.showSuccessDialog = false;
     },
+
+   
   },
 };
 </script>

@@ -5,28 +5,56 @@
     <div class="add-area">
       <label>
         <h3>公司</h3>
-        <input class="add-box" type="text">
+        <input v-model="companyName" class="add-box" type="text">
       </label>
 
       <label>
         <h3>負責人</h3>
-        <input class="add-box" type="text">
+        <input v-model="inCharge" class="add-box" type="text">
+      </label>
+
+      <label>
+        <h3>會員電話</h3>
+        <input v-model="memberPhone" class="add-box" type="text">
+      </label>
+
+      <label>
+        <h3>辦公室編號</h3>
+        <input v-model="officeId" class="add-box" type="text">
+      </label>
+
+      <label>
+        <h3>公司統編</h3>
+        <input v-model="companyTaxid" class="add-box" type="text">
+      </label>
+
+      <label>
+        <h3>付款方式</h3>
+        <input v-model="paymentMethod" class="add-box" type="text">
       </label>
 
       <label>
         <h3>起租日期</h3>
         <!-- <input class="add-box" type="date"> -->
-        <vue-flatpickr v-model="selectedDate"></vue-flatpickr>
+        <vue-flatpickr v-model="startDate"></vue-flatpickr>
       </label>
 
       <label>
         <h3>結束日期</h3>
         <!-- <input class="add-box" type="date"> -->
-        <vue-flatpickr v-model="selectedDate"></vue-flatpickr>
+        <vue-flatpickr v-model="endDate"></vue-flatpickr>
       </label>
-      <UploadBox/>
+
+      <label>
+        <h3>備註</h3>
+        <input v-model="remark" class="add-box" type="text">
+      </label>
+
     </div>
-      
+    <UploadBox ref="uploadBoxRef" />
+
+
+
     <button class="btn-close" @click="closeDialog">取消</button>
     <button class="btn-confirm" @click="handleConfirm">確定</button>
   </div>
@@ -34,15 +62,16 @@
 </template>
 
 <script>
+import axios from 'axios';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.css';
+import { onMounted,toRaw } from 'vue';
+import VueFlatpickr from 'vue-flatpickr-component';
 import UploadBox from '../box/UploadBox.vue';
 import AddSuccessDialog from './AddSuccessDialog.vue';
-import VueFlatpickr from 'vue-flatpickr-component';
-import 'flatpickr/dist/flatpickr.css';
-import flatpickr from 'flatpickr';
-import {onMounted } from 'vue';
 
 export default {
-  
+
   emits: ['close', 'confirm'],
   components: {
     UploadBox,
@@ -53,63 +82,96 @@ export default {
     return {
       showDialog: false,
       showSuccessDialog: false,
-      selectedDate: null,
       flatpickrConfig: {
-        inline: true,}
+        inline: true,
+      },
+      companyName: '',
+      inCharge: '',
+      memberPhone: '',
+      officeId: '',
+      companyTaxid: '',
+      paymentMethod: '',
+      startDate: null,
+      endDate: null,
+      remark: '',
+      uploadFile: null
     }
   },
   methods: {
-    
-    closeDialog() {
-      this.$emit('close');
+
+    setUploadFile() {
+      console.log(this.$refs.uploadBoxRef.emitFiles());
     },
-    handleConfirm() {
-  console.log('新增成功');
-  this.$emit('confirm');
-  this.showSuccessDialog = true;
-},
+
+    async handleConfirm() {
+      this.uploadFile = toRaw(this.$refs.uploadBoxRef.emitFiles()[0])
+
+   
+    
+
+      const blobfile = new Blob([this.uploadFile],{
+        type:'application/pdf'
+      })
+    
+  
+
+      await axios({ method: 'post', url: 'http://localhost:8080/contracts/backstage-add-new-contract', data: { companyName: 'TEST', inCharge: 'TEST', memberPhone: '0956789012', officeId: 'OF003', companyTaxid: '000', paymentMethod: 'CARD', startDate: this.startDate, endDate: this.endDate, remark: 'TEST', uploadFile:blobfile}, headers: { "Content-Type": 'multipart/form-data' } })
+
+ 
+
+
+      this.$emit('confirm');
+      this.showSuccessDialog = true;
+    },
   },
   mounted() {
     onMounted(() => {
-    flatpickr(this.$refs.datePickerInput, {
-      monthSelectorType: 'long'
-      // 其他Flatpickr的配置選項
-    });});
+      flatpickr(this.$refs.datePickerInput, {
+        monthSelectorType: 'long'
+        // 其他Flatpickr的配置選項
+      });
+    });
     // 在 mounted 鉤子函數中引入 dark.css 主題樣式表
     require("flatpickr/dist/themes/confetti.css");
-    
+
   }
 };
 </script>
 
 
 <style scoped>
-*{
+* {
   font-family: '微軟正黑體';
 }
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 设置半透明的黑色背景 */
-  z-index: 9999; /* 确保遮罩层在其他内容之上 */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 设置半透明的黑色背景 */
+  z-index: 9999;
+  /* 确保遮罩层在其他内容之上 */
 }
-.add-contract-dialog{
+
+.add-contract-dialog {
   width: 450px;
-  height: 480px;;
+  height: 670px;
+  ;
   background-color: #ffffff;
   position: relative;
   z-index: 99999;
-  top: 75px;
+  top: 25px;
   left: 35%;
   border-radius: 20px;
 }
-.btn-close{
+
+.btn-close {
   position: absolute;
   left: 37%;
-  bottom: 6%;
+  bottom: 2%;
   width: 60px;
   height: 38px;
   color: #FFF;
@@ -118,14 +180,16 @@ export default {
   border: 0px;
   cursor: pointer;
 }
-.btn-close:hover{
+
+.btn-close:hover {
   background-color: #ef9817;
   transition: background-color 0.8s;
 }
-.btn-confirm{
+
+.btn-confirm {
   position: absolute;
   left: 53%;
-  bottom: 6%;
+  bottom: 2%;
   width: 60px;
   height: 38px;
   color: #FFF;
@@ -134,20 +198,24 @@ export default {
   border: 0px;
   cursor: pointer;
 }
-.btn-confirm:hover{
+
+.btn-confirm:hover {
   background-color: #ef9817;
   transition: background-color 0.8s;
 }
-.add-contract-dialog h2{
+
+.add-contract-dialog h2 {
   position: relative;
   top: 30px;
   text-align: center;
   color: #5C5C5C;
-  font-weight:500;
+  font-weight: 500;
 }
-.add-area{
+
+.add-area {
   position: relative;
   top: 30px;
+
 }
 
 
@@ -158,7 +226,7 @@ export default {
   height: 40px;
 }
 
-.add-contract-dialog h3{
+.add-contract-dialog h3 {
   font-size: 16px;
   position: relative;
   top: -5px;
@@ -166,7 +234,8 @@ export default {
   text-align: center;
   color: #777777;
 }
-.add-box{
+
+.add-box {
   position: absolute;
   background-color: #FFF0DE;
   width: 250px;
@@ -180,28 +249,29 @@ export default {
   padding-left: 10px;
 }
 
-  /* 日期選擇器 */
-  .flatpickr-input {
-    position: absolute;
-    background-color: #FFF0DE;
-    width: 250px;
-    height: 36px;
-    left: 130px;
-    border-radius: 10px;
-    border: 0px;
-    outline: none;
-    padding-left: 10px;
+/* 日期選擇器 */
+.flatpickr-input {
+  position: absolute;
+  background-color: #FFF0DE;
+  width: 250px;
+  height: 36px;
+  left: 130px;
+  border-radius: 10px;
+  border: 0px;
+  outline: none;
+  padding-left: 10px;
 }
 
 
-.dayContainer{
+.dayContainer {
   background-color: #f2eee9;
 }
 
 .flatpickr-input {
-border-radius: 10px;
+  border-radius: 10px;
 }
-.flatpickr-calendar.open{
+
+.flatpickr-calendar.open {
   background-color: #d8d0c7;
   width: 100px;
 }

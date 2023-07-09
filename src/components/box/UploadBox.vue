@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
   setup() {
@@ -37,6 +37,9 @@ export default {
       selectedFiles.value = Array.from(target.files);
       files.splice(0, files.length, ...selectedFiles.value);
     }
+
+    
+
 // 上傳檔案方法
     // function uploadFile() {
     //   const formData = new FormData();
@@ -55,9 +58,14 @@ export default {
       files,
       openFileInput,
       setFiles,
+    
       // uploadFile,
     };
-  },
+  },expose: ['emitFiles'],methods:{
+     emitFiles(){
+      return this.files;
+    }
+  }
 };
 </script> 
   
@@ -67,7 +75,7 @@ export default {
 }
   .upload-area{
     position:absolute;
-    top: 194px;
+    top: 530px;
     left: 130px;
   }
   .table { border-collapse: collapse; }

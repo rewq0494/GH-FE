@@ -1,6 +1,6 @@
 <template>
   <div class="title">合約管理</div>
-  <AddContractButton />
+  <AddContractButton/>
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
     <ContractData :filter-key="searchQuery" />
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import SearchButton from '../components/button/SearchButton.vue';
 import AddContractButton from '../components/button/AddContractButton.vue';
+import SearchButton from '../components/button/SearchButton.vue';
 import ContractData from '../components/data-list/ContractData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
 // import AddSuccessDialog from '../components/dialog/AddSuccessDialog.vue';
