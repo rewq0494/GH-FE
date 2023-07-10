@@ -5,27 +5,27 @@
     <div class="add-area">
       <label>
         <h3>公司</h3>
-        <input class="add-box" type="text">
+        <input class="add-box" type="text" v-model="companyName">
       </label>
 
       <label>
         <h3>統編</h3>
-        <input class="add-box" type="text">
+        <input class="add-box" type="text" v-model="companyTaxId">
       </label>
 
       <label>
         <h3>聯絡人</h3>
-        <input class="add-box" type="text">
+        <input class="add-box" type="text" v-model="companymemberName">
       </label>
 
       <label>
         <h3>電話</h3>
-        <input class="add-box" type="tel">
+        <input class="add-box" type="tel" v-model="companyPhone">
       </label>
 
       <label>
         <h3>地址</h3>
-        <input class="add-box" type="text">
+        <input class="add-box" type="text" v-model="address">
       </label>
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>
@@ -36,6 +36,8 @@
 
 <script>
 import AddSuccessDialog from '../dialog/AddSuccessDialog.vue';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
   emits: ['close', 'confirm'],
@@ -45,7 +47,12 @@ export default {
   data() {
     return {
       showDialog: false,
-      showSuccessDialog: false
+      showSuccessDialog: false,
+      companyName: '',
+      companyTaxId: '',
+      companymemberName: '',
+      address: '',
+      companyPhone: ''
     }
   },
   methods: {
@@ -53,13 +60,35 @@ export default {
       this.$emit('close');
     },
     handleConfirm() {
-  console.log('新增成功');
-  this.$emit('confirm');
-  this.showSuccessDialog = true;
-},
+      // 构建数据对象
+      const data = {
+        companyTaxId: this.companyTaxId,
+        companyName: this.companyName,
+        companymemberName: this.companymemberName,
+        address: this.address,
+        companyPhone: this.companyPhone
+      };
+
+      // 发送POST请求
+      axios.post('/company', data)
+        .then(response => {
+          console.log(response.data); // 打印新增成功信息
+          this.$emit('confirm');
+          this.showDialog = false; // 隐藏新增信息的框框
+        })
+        .catch(error => {
+          console.error(error);
+          // 处理错误
+        });
+    },
   }
 };
 </script>
+
+
+
+
+
 
 
 <style scoped>

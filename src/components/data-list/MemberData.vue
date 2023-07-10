@@ -1,139 +1,65 @@
-
-<!-- 第二版有排序 -->
 <template>
-    <div >
-        <table class="thead-table">
-            <thead>
-                <tr>
-                    <th @click="sortBy('company')" :class="{ active: sortKey === 'company' }">公司
-                    <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('name')" :class="{ active: sortKey === 'name' }">姓名
-                        <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('phone')" :class="{ active: sortKey === 'phone' }">電話
-                        <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('email')" :class="{ active: sortKey === 'email' }">信箱
-                        <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('address')" :class="{ active: sortKey === 'address' }">地址</th>
-                    <th>編輯</th>
-                    <th>刪除</th>
-                </tr>
-            </thead>
-        </table>
-        <table class="tbody-table">
-            <tbody>
-                <tr v-for="member in filteredMembers" :key="member.id">
-                    <td>{{ member.company }}</td>
-                    <td>{{ member.name }}</td>
-                    <td>{{ member.phone }}</td>
-                    <td>{{ member.email }}</td>
-                    <td>{{ member.address }}</td>
-                    <!-- <td><button @click="openEditDialog"><img class="edit-icon" src="../../assets/list-icon/edit.png"></button></td> -->
-                    <td><EditMbButton/></td>
-                    <td><DeleteMbButton/></td>
-                    <!-- <td><button><img class="delete-icon" src="../../assets/list-icon/delete.png"></button></td> -->
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div>
+    <table class="thead-table">
+      <thead>
+        <tr>
+          <th @click="sortBy('company')" :class="{ active: sortKey === 'company' }">公司
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('name')" :class="{ active: sortKey === 'name' }">姓名
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'name' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'name' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('phone')" :class="{ active: sortKey === 'phone' }">電話
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'phone' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'phone' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('companyTaxId')" :class="{ active: sortKey === 'companyTaxId' }">統編
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'companyTaxId' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'companyTaxId' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('address')" :class="{ active: sortKey === 'address' }">地址</th>
+          <th>編輯</th>
+          <th>刪除</th>
+        </tr>
+      </thead>
+    </table>
+    <table class="tbody-table">
+      <tbody>
+        <tr v-for="member in filteredMembers" :key="member.id">
+          <td>{{ member.companyName }}</td> <!-- 显示 "公司" -->
+          <td>{{ member.companymemberName }}</td>
+          <td>{{ member.companyPhone }}</td> <!-- 显示 "電話" -->
+          <td>{{ member.companyTaxId }}</td> <!-- 显示 "統編" -->
+          <td>{{ member.address }}</td> <!-- 显示 "地址" -->
+          <td><EditMbButton :member="member" @edit="openEditDialog" /></td>
+          <td><DeleteMbButton /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
   
 <script>
-  import EditMbButton from '../button/EditMbButton.vue';
-  import DeleteMbButton from '../button/DeleteMbButton.vue';
-  export default {
-    props: {
+import EditMbButton from '../button/EditMbButton.vue';
+import DeleteMbButton from '../button/DeleteMbButton.vue';
+
+export default {
+  props: {
+    members: Array,
     filterKey: String,
   },
-  components:{
+  components: {
     EditMbButton,
     DeleteMbButton,
   },
-    data() {
-      return {
-        members: [
-          {
-            company: '迪士八有限公司',
-            name: '米奇',
-            phone: '123-456-7890',
-            email: 'john@example.com',
-            address: '桃園市桃園區中正路300號'
-          },
-          {
-            company: '皮克斯有限公司',
-            name: '毛怪',
-            phone: '523-456-7890',
-            email: 'john@example.com',
-            address: '台南市中西區民族路155號'
-          },
-          {
-            company: '幼幼有限公司',
-            name: '屁屁偵探',
-            phone: '123-456-7890',
-            email: 'ejohn@example.com',
-            address: '台北市信義區信義路五段7號89樓'
-          },
-          {
-            company: '默默有限公司',
-            name: '波利',
-            phone: '127-456-7890',
-            email: 'jfohn@example.com',
-            address: '新竹'
-          },
-          {
-            company: '東森有限公司',
-            name: '米妮',
-            phone: '123-456-7890',
-            email: 'john@example.com',
-            address: '花蓮'
-          },
-          {
-            company: 'GTV有限公司',
-            name: '安寶',
-            phone: '123-456-2590',
-            email: 'ajohn@example.com',
-            address: '屏東'
-          },
-          {
-            company: '緯來有限公司',
-            name: '阿奇',
-            phone: '123-456-7890',
-            email: 'john@example.com',
-            address: '台北市文山區新光路2號'
-          },
-          {
-            company: 'HBO有限公司',
-            name: '獅子丸',
-            phone: '123-456-7890',
-            email: 'jowhn@example.com',
-            address: '台中市南區工業區一路3號'
-          },
-          {
-            company: '緯來有限公司',
-            name: '阿奇',
-            phone: '123-456-7890',
-            email: 'john@example.com',
-            address: '高雄市左營區博愛二路757號'
-          },
-          {
-            company: 'HBO有限公司',
-            name: '獅子丸',
-            phone: '123-456-7890',
-            email: 'jowhn@example.com',
-            address: '台東'
-          }
-        ],
-        sortKey: '',
-        sortOrders: {
-            company: 1,
-            name: 1,
-            phone: 1,
-            email: 1,
-            address: 1
-        },
-        searchQuery: ''
-      };
-    },
-    computed: {
+  data() {
+    return {
+      selectedMember: null,
+    };
+  },
+  computed: {
     filteredMembers() {
       const filterKey = this.filterKey.toLowerCase();
       let data = this.members;
@@ -168,10 +94,17 @@
     sortBy(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] === 1 ? -1 : 1;
-    }
-  }
+    },
+    openEditDialog(member) {
+      this.selectedMember = member;
+   
+      // 在这里可以打开编辑对话框，并将选中的会员信息传递给对话框组件
+    },
+  },
 };
 </script>
+
+
   
 <style scoped>
   .thead-table{
@@ -349,5 +282,4 @@ background: transparent;
 border-radius: 4px;
 background-color: rgba(83, 60, 34, 0.4);
 } 
-</style> 
-   
+</style>
