@@ -1,4 +1,5 @@
 <template>
+  <SidebarMenu/>
   <div class="title">權限管理</div>
   <AddAccessButton />
   <SearchButton @search="updateSearchQuery" />
@@ -13,6 +14,7 @@ import SearchButton from '../components/button/SearchButton.vue';
 import AddAccessButton from '../components/button/AddAccessButton.vue';
 import AccessControlData from '../components/data-list/AccessControlData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
+import SidebarMenu from '../components/SidebarMenu.vue'
 
 export default {
 name: 'MemberList',
@@ -21,6 +23,7 @@ components: {
   AddAccessButton,
   AccessControlData,
   AddMemberDialog,
+  SidebarMenu
 
 },
 data() {

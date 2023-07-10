@@ -1,4 +1,5 @@
 <template>
+  <SidebarMenu/>
   <div class="title">租賃狀況</div>
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
@@ -11,6 +12,8 @@
 import SearchButton from '../components/button/SearchButton.vue';
 import LeaseData from '../components/data-list/LeaseData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
+import SidebarMenu from '../components/SidebarMenu.vue'
+
 
 export default {
 name: 'MemberList',
@@ -18,7 +21,7 @@ components: {
   SearchButton,
   LeaseData,
   AddMemberDialog,
-  // AddSuccessDialog,
+  SidebarMenu,
 
 },
 data() {
@@ -40,6 +43,7 @@ methods: {
 
 <!-- ----------------------------------- -->
 <style scoped>
+
 .title{
   font-family: 微軟正黑體 ;
   color: #7D5F4F;

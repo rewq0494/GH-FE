@@ -1,25 +1,27 @@
 <template>
+      <SidebarMenu/>
   <div class="title">會議教室</div>
+  <AddOrderButton/>
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
     <MeetingData :filter-key="searchQuery" />
   </div>
-  <AddMemberDialog v-if="showDialog" @close="closeDialog"/>
 </template>
 
 <script>
 import SearchButton from '../components/button/SearchButton.vue';
 import MeetingData from '../components/data-list/MeetingData.vue';
-import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
+import SidebarMenu from '../components/SidebarMenu.vue'
+import AddOrderButton from '../components/button/AddOrderButton.vue'
+
 
 export default {
 name: 'MemberList',
 components: {
   SearchButton,
   MeetingData,
-  AddMemberDialog,
-  // AddSuccessDialog,
-
+  SidebarMenu,
+  AddOrderButton,
 },
 data() {
   return {

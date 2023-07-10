@@ -1,10 +1,10 @@
 import { createRouter, createWebHashHistory} from 'vue-router';
-import IndexPage from '../views/IndexPage.vue';
+// import IndexPage from '../views/IndexPage.vue';
 
 const routes = [
     {
         path:'/',
-        component: IndexPage,
+        // component: IndexPage,
         children: [
             {
               path: 'MemberList',
@@ -40,6 +40,11 @@ const routes = [
                 path:'ChatWidget',
                 name: '線上客服',
                 component:() => import('../views/ChatWidget.vue')
+              },
+            {
+                path:'IndexPage',
+                name: '首頁',
+                component:() => import('../views/IndexPage.vue')
               }
             ]
     },

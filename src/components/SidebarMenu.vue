@@ -1,4 +1,5 @@
 <template>
+    <div class="main-section-bg">
   <div class="sidebar">
     <!-- 側邊欄的內容 -->
     <img class="logo" src="../assets/logo/透明logo.png">
@@ -32,7 +33,10 @@
   </div>
   <div class="components">
   </div>
+
   <div class="main-section"></div>
+</div>
+  <router-view></router-view>
 </template>
 
 
@@ -130,6 +134,13 @@ export default {
   right:0;
   top:0;
   border-radius: 50px 0 0 50px;
-
+}
+.main-section-bg{
+  background-color:#373633;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  right:0;
+  top:0;
 }
 </style>
