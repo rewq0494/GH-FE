@@ -1,63 +1,77 @@
-
-<!-- 第二版有排序 -->
 <template>
-    <div >
-        <table class="thead-table">
-            <thead>
-                <tr>
-                  <th @click="sortBy('office')" :class="{ active: sortKey === 'name' }">辦公室
-                      <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('company')" :class="{ active: sortKey === 'company' }">公司
-                    <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('companyTaxId')" :class="{ active: sortKey === 'company' }">統編
-                    <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    
-                    <th @click="sortBy('startDate')" :class="{ active: sortKey === 'startDate' }">起租日期
-                        <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('endDate')" :class="{ active: sortKey === 'endDate' }">結束日期
-                        <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('rent')" :class="{ active: sortKey === 'rent' }">租金
-                        <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('status')" :class="{ active: sortKey === 'status' }">繳納狀態</th>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
-        <table class="tbody-table">
-            <tbody>
-                <tr v-for="member in filteredMembers" :key="member.id">
-                    <td>{{ member.officeId }}</td>
-                    <td>{{ member.companyName }}</td>
-                    <td>{{ member.companyTaxId }}</td>
-                    <td>{{ member.startDate }}</td>
-                    <td>{{ member.endDate }}</td>
-                    <td>{{ member.rent }}</td>
-                    <td>{{ member.status }}</td>
-                    <td> <component :is="getButtonComponent(member)" :officeId="member.officeId"/></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div>
+    <table class="thead-table">
+      <thead>
+        <tr>
+          <th @click="sortBy('officeId')" :class="{ active: sortKey === 'officeId' }">辦公室
+            <span class="arrow" :class="{ 'asc': sortKey === 'officeId' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'officeId' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('companyName')" :class="{ active: sortKey === 'companyName' }">公司
+            <span class="arrow" :class="{ 'asc': sortKey === 'companyName' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'companyName' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('companyTaxId')" :class="{ active: sortKey === 'companyTaxId' }">統編
+            <span class="arrow" :class="{ 'asc': sortKey === 'companyTaxId' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'companyTaxId' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('startDate')" :class="{ active: sortKey === 'startDate' }">起租日期
+            <span class="arrow" :class="{ 'asc': sortKey === 'startDate' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'startDate' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('endDate')" :class="{ active: sortKey === 'endDate' }">結束日期
+            <span class="arrow" :class="{ 'asc': sortKey === 'endDate' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'endDate' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('rent')" :class="{ active: sortKey === 'rent' }">租金
+            <span class="arrow" :class="{ 'asc': sortKey === 'rent' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'rent' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('status')" :class="{ active: sortKey === 'status' }">繳納狀態</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <table class="tbody-table">
+      <tbody>
+        <tr v-for="member in filteredMembers" :key="member.id">
+          <td>{{ member.officeId }}</td>
+          <td>{{ member.companyName }}</td>
+          <td>{{ member.companyTaxId }}</td>
+          <td>{{ member.startDate }}</td>
+          <td>{{ member.endDate }}</td>
+          <td>{{ member.rent }}</td>
+          <td>{{ member.status }}</td>
+          <td><component :is="getButtonComponent(member)" :officeId="member.officeId" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
-  
+
 <script>
-  import InfoButton from '../button/InfoButton.vue';
-  import AddInfoButton from '../button/AddInfoButton.vue';
-  export default {
-    props: {
-      contracts:Array,
+import InfoButton from '../button/InfoButton.vue';
+import AddInfoButton from '../button/AddInfoButton.vue';
+
+export default {
+  props: {
+    contracts: Array,
     filterKey: String,
   },
-  components:{
+  components: {
     InfoButton,
     AddInfoButton,
   },
-    data() {
-      return {
-        searchQuery: ''
-      };
-    },
-    computed: {
+  data() {
+    return {
+      searchQuery: '',
+      sortKey: 'officeId', // 默认按照辦公室的 officeId 排序
+      sortOrders: {
+        officeId: 1,
+        companyName: 1,
+        companyTaxId: 1,
+        startDate: 1,
+        endDate: 1,
+        rent: 1,
+        status: 1,
+      },
+    };
+  },
+  computed: {
     filteredMembers() {
       const filterKey = this.filterKey.toLowerCase();
       let data = this.contracts;
@@ -86,7 +100,7 @@
       }
 
       return data;
-    }
+    },
   },
   methods: {
     sortBy(key) {
@@ -94,18 +108,19 @@
       this.sortOrders[key] = this.sortOrders[key] === 1 ? -1 : 1;
     },
     getButtonComponent(member) {
-  if (this.isEmpty(member.company)) {
-    return 'AddInfoButton';
-  } else {
-    return 'InfoButton';
-  }
-},
+      if (this.isEmpty(member.company)) {
+        return 'AddInfoButton';
+      } else {
+        return 'InfoButton';
+      }
+    },
     isEmpty(value) {
-    return value === null || value === undefined || value === '';
+      return value === null || value === undefined || value === '';
+    },
   },
-  }
 };
 </script>
+
   
 <style scoped>
   .thead-table{
