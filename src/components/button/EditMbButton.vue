@@ -1,52 +1,59 @@
 <template>
-    <div>
-      <button type="button" class="edit-btn" @click="openDialog">
-        <img class="edit-icon" src="../../assets/list-icon/edit.png">
-      </button>
-      <div v-if="showEditMbDialog">
-        <dialog-box @close="closeDialog" @confirm="openSuccessDialog" />
-      </div>
-      <edit-success-dialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
+  <div>
+    <button type="button" class="edit-btn" @click="openDialog">
+      <img class="edit-icon" src="../../assets/list-icon/edit.png">
+    </button>
+    <div v-if="showEditMbDialog">
+      <dialog-box @close="closeDialog" @confirm="openSuccessDialog" :member="member" />
     </div>
-  </template>
-  
-  <script>
-  import EditMemberDialog from '../dialog/EditMemberDialog.vue';
-  import EditSuccessDialog from '../dialog/EditSuccessDialog.vue';
-  
-  export default {
-    components: {
-      'dialog-box': EditMemberDialog,
-      'edit-success-dialog': EditSuccessDialog,
+    <edit-success-dialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
+  </div>
+</template>
+
+<script>
+import EditMemberDialog from '../dialog/EditMemberDialog.vue';
+import EditSuccessDialog from '../dialog/EditSuccessDialog.vue';
+
+export default {
+  components: {
+    'dialog-box': EditMemberDialog,
+    'edit-success-dialog': EditSuccessDialog,
+  },
+  props: {
+    member: {
+      type: Object,
+      required: true,
     },
-    data() {
-      return {
-        showDialog: false,
-        showSuccessDialog: false,
-        showEditMbDialog: false,
-      };
+  },
+  data() {
+    return {
+      showEditMbDialog: false,
+      showSuccessDialog: false
+    };
+  },
+  methods: {
+    openDialog() {
+      console.log('按鈕反應', this.member);
+      this.showEditMbDialog = true;
     },
-    methods: {
-      openDialog() {
-        console.log('按鈕反應');
-        this.showEditMbDialog = true;
-      },
-      closeDialog() {
-        this.showEditMbDialog = false;
-      },
-      openSuccessDialog() {
-        this.showEditMbDialog = false;
-        this.showSuccessDialog = true;
-        setTimeout(() => {
-          this.closeSuccessDialog();
-        }, 1200);
-      },
-      closeSuccessDialog() {
-        this.showSuccessDialog = false;
-      },
+    closeDialog() {
+      this.showEditMbDialog = false;
     },
-  };
-  </script>
+    openSuccessDialog() {
+      this.showEditMbDialog = false;
+      this.showSuccessDialog = true;
+      setTimeout(() => {
+        this.closeSuccessDialog();
+      }, 1200);
+    },
+    closeSuccessDialog() {
+      this.showSuccessDialog = false;
+      
+    },
+  },
+};
+</script>
+
   
     <style  scoped>
    

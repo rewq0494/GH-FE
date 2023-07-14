@@ -4,7 +4,7 @@
       <img class="icon-delete" src="../../assets/list-icon/delete.png">
     </button>
     <div v-if="showDialog">
-      <dialog-box @close="closeDialog" @confirm="openSuccessDialog" />
+      <dialog-box :companyTaxId="companyTaxId" @close="closeDialog" @confirm="openSuccessDialog" />
     </div>
     <delete-success-dialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
   </div>
@@ -19,6 +19,12 @@ export default {
     'dialog-box': DeleteMemberDialog,
     'delete-success-dialog': DeleteSuccessDialog,
   },
+  props: {
+    companyTaxId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       showDialog: false,
@@ -27,7 +33,7 @@ export default {
   },
   methods: {
     openDialog() {
-      console.log('按鈕反應');
+      console.log('按鈕反應', this.companyTaxId);
       this.showDialog = true;
     },
     closeDialog() {
@@ -46,6 +52,7 @@ export default {
   },
 };
 </script>
+
 
   <style  scoped>
   *{

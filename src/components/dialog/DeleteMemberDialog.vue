@@ -12,11 +12,19 @@
 
 <script>
 import DeleteSuccessDialog from './DeleteSuccessDialog.vue';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
   emits: ['close', 'confirm'],
   components: {
     DeleteSuccessDialog
+  },
+  props: {
+    companyTaxId: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -29,9 +37,21 @@ export default {
       this.$emit('close');
     },
     handleConfirm() {
-  console.log('刪除成功');
-  this.$emit('confirm');
-  this.showSuccessDialog = true;
+   // 获取要删除的公司的 companyTaxId
+   
+  // 调用API删除公司记录
+  axios.delete(`/company/${this.companyTaxId}`)
+    .then(() => {
+      // 删除成功，显示成功对话框
+      console.log('刪除成功');
+      this.$emit('confirm');
+      this.showSuccessDialog = true;
+    })
+    .catch(error => {
+      // 处理删除失败的情况
+      console.error('刪除失败', error);
+      // 可以根据需要显示错误信息或采取其他操作
+    });
 },
   }
 };

@@ -1,67 +1,123 @@
 <template>
-    <div class="overlay"></div>
+  <div class="overlay"></div>
   <div class="edit-mb-dialog">
-   <h2>修改會員資訊</h2>
-<div class="edit-area">
-   <label>
-    <h3>公司</h3>
-    <input class="edit-box" type="text" value="ABCdqqqwe有限公司">
-  </label>
+    <h2>修改會員資訊</h2>
+    <div class="edit-area">
+      <label>
+        <h3>公司</h3>
+        <input class="edit-box" type="text" v-model="company">
+      </label>
 
+      <label>
+        <h3>統編</h3>
+        <input class="edit-box" type="text" v-model="companyTaxId">
+      </label>
 
-  <label>
-    <h3>統編</h3>
-    <input class="edit-box" type="text" value="陳小明1216">
-  </label>
+      <label>
+        <h3>聯絡人</h3>
+        <input class="edit-box" type="text" v-model="contact">
+      </label>
 
-  <label>
-  <h3>聯絡人</h3>
-    <input class="edit-box" type="text" value="02-12345678">
-    </label>
+      <label>
+        <h3>電話</h3>
+        <input class="edit-box" type="tel" v-model="phone">
+      </label>
 
-  <label>
-    <h3>電話</h3>
-    <input class="edit-box" type="tel" value="000">
-  </label>
-
-  <label>
-    <h3>地址</h3>
-    <input class="edit-box" type="text" value="台北市中正區忠孝東路一段100號">
-  </label>
-</div>
-   <button class="btn-close" @click="closeDialog">取消</button>
-   <button class="btn-confirm" @click="handleConfirm">確定</button>
+      <label>
+        <h3>地址</h3>
+        <input class="edit-box" type="text" v-model="address">
+      </label>
+    </div>
+    <button class="btn-close" @click="closeDialog">取消</button>
+    <button class="btn-confirm" @click="handleConfirm">確定</button>
   </div>
   <EditSuccessDialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
-
 </template>
+
 <script>
-  import EditSuccessDialog from '../dialog/EditSuccessDialog.vue';
+import EditSuccessDialog from '../dialog/EditSuccessDialog.vue';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080';
+
 export default {
-  components:{
+  components: {
     EditSuccessDialog,
   },
+  props: {
+    member: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
-  return {
-    showDialog: false,
-    showSuccessDialog: false
-  }
-},
+    return {
+      showDialog: false,
+      showSuccessDialog: false,
+      company: '',
+      companyTaxId: '',
+      contact: '',
+      phone: '',
+      address: '',
+    };
+  },
+  computed: {
+    initialCompany() {
+      return this.member ? this.member.companyName : '';
+    },
+    initialCompanyTaxId() {
+      return this.member ? this.member.companyTaxId : '';
+    },
+    initialContact() {
+      return this.member ? this.member.companymemberName : '';
+    },
+    initialPhone() {
+      return this.member ? this.member.companyPhone : '';
+    },
+    initialAddress() {
+      return this.member ? this.member.address : '';
+    },
+  },
+  mounted() {
+    this.company = this.initialCompany;
+    this.companyTaxId = this.initialCompanyTaxId;
+    this.contact = this.initialContact;
+    this.phone = this.initialPhone;
+    this.address = this.initialAddress;
+  },
   methods: {
     closeDialog() {
       this.$emit('close');
     },
     handleConfirm() {
-      console.log('新增成功');
-      this.$emit('confirm');
-      this.showSuccessDialog = true;
-},
-      // 处理确定按钮的逻辑
-      // 在这里可以进行一些处理操作
-      // 如果需要将处理结果传递给父组件或其他地方，可以使用$emit来触发事件
-    }
-  };
+      // 构造要发送的数据
+      const updatedData = {
+        companyTaxId: this.member.companyTaxId,
+        companyName: this.company,
+        companymemberName: this.contact,
+        companyPhone: this.phone,
+        address: this.address,
+      };
+
+      // 发送PUT请求
+      axios.put(`/company/${this.member.companyTaxId}`, updatedData)
+        .then(response => {
+          console.log('更新成功', response.data);
+          this.$emit('confirm');
+          this.showDialog = false;
+          // 可以在这里执行其他操作或刷新数据
+          
+        })
+        .catch(error => {
+          console.error('更新失败', error);
+          // 处理错误情况
+        });
+    },
+  },
+};
 </script>
+
+
+
 
 <style scoped>
 *{

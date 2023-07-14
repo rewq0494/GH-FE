@@ -33,8 +33,9 @@
           <td>{{ member.companyPhone }}</td> <!-- 显示 "電話" -->
           <td>{{ member.companyTaxId }}</td> <!-- 显示 "統編" -->
           <td>{{ member.address }}</td> <!-- 显示 "地址" -->
-          <td><EditMbButton :member="member" @edit="openEditDialog" /></td>
-          <td><DeleteMbButton /></td>
+          <td><EditMbButton :member="member" /></td>
+          <td><DeleteMbButton :companyTaxId="member.companyTaxId" />
+</td>
         </tr>
       </tbody>
     </table>
@@ -57,6 +58,7 @@ export default {
   data() {
     return {
       selectedMember: null,
+      confirmedCompanyTaxId: null,
     };
   },
   computed: {
@@ -95,11 +97,9 @@ export default {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] === 1 ? -1 : 1;
     },
-    openEditDialog(member) {
-      this.selectedMember = member;
-   
-      // 在这里可以打开编辑对话框，并将选中的会员信息传递给对话框组件
-    },
+  
+      // 可以将 companyTaxId 存储到组件的 data 中，或者执行其他需要的操作
+  
   },
 };
 </script>
