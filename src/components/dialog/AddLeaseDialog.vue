@@ -4,23 +4,23 @@
     <h2>新增租賃情況</h2>
     <div class="add-area">
       <label>
-        <h3>公司</h3>
-        <input class="add-box" type="text">
+        <h3>統編</h3>
+        <input class="add-box" type="text" v-model="companyTaxId">
       </label>
 
       <label>
-        <h3>租期</h3>
-        <input class="add-box" type="text">
+        <h3>起租日期</h3>
+        <input class="add-box" type="text" v-model="startDate">
       </label>
 
       <label>
-        <h3>租金</h3>
-        <input class="add-box" type="text">
+        <h3>結束日期</h3>
+        <input class="add-box" type="text" v-model="endDate">
       </label>
 
       <label>
-        <h3>館別</h3>
-        <input class="add-box" type="tel">
+        <h3>繳納狀態</h3>
+        <input class="add-box" type="tel" v-model="paymentStatus">
       </label>
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>
@@ -31,30 +31,63 @@
 
 <script>
 import AddSuccessDialog from './AddSuccessDialog.vue';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
   emits: ['close', 'confirm'],
   components: {
     AddSuccessDialog
   },
+  props: {
+    officeId: {
+      type: String,
+      required: true
+    },
+    contracts: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       showDialog: false,
-      showSuccessDialog: false
+      showSuccessDialog: false,
+      startDate: null,
+      endDate: null,
+      companyTaxId: null,
+      paymentStatus: null
     }
   },
   methods: {
+    handleConfirm() {
+      const requestData = {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        companyTaxId: this.companyTaxId,
+        paymentStatus: this.paymentStatus
+      };
+
+      // 发送请求到后端API
+      axios.put(`/contract/${this.officeId}`, requestData)
+        .then(() => {
+          console.log('更改成功');
+          this.$emit('confirm');
+        })
+        .catch(error => {
+          console.error('更改失败', error);
+        });
+    },
     closeDialog() {
       this.$emit('close');
     },
-    handleConfirm() {
-  console.log('新增成功');
-  this.$emit('confirm');
-  this.showSuccessDialog = true;
-},
-  }
+    closeSuccessDialog() {
+      this.showSuccessDialog = false;
+    }
+  },
 };
 </script>
+
 
 
 <style scoped>

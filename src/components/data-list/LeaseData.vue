@@ -9,6 +9,9 @@
                       <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
                     <th @click="sortBy('company')" :class="{ active: sortKey === 'company' }">公司
                     <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
+                    <th @click="sortBy('companyTaxId')" :class="{ active: sortKey === 'company' }">統編
+                    <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
+                    
                     <th @click="sortBy('startDate')" :class="{ active: sortKey === 'startDate' }">起租日期
                         <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
                     <th @click="sortBy('endDate')" :class="{ active: sortKey === 'endDate' }">結束日期
@@ -23,13 +26,14 @@
         <table class="tbody-table">
             <tbody>
                 <tr v-for="member in filteredMembers" :key="member.id">
-                    <td>{{ member.office }}</td>
-                    <td>{{ member.company }}</td>
+                    <td>{{ member.officeId }}</td>
+                    <td>{{ member.companyName }}</td>
+                    <td>{{ member.companyTaxId }}</td>
                     <td>{{ member.startDate }}</td>
                     <td>{{ member.endDate }}</td>
                     <td>{{ member.rent }}</td>
                     <td>{{ member.status }}</td>
-                    <td> <component :is="getButtonComponent(member)"/></td>
+                    <td> <component :is="getButtonComponent(member)" :officeId="member.officeId"/></td>
                 </tr>
             </tbody>
         </table>
@@ -41,6 +45,7 @@
   import AddInfoButton from '../button/AddInfoButton.vue';
   export default {
     props: {
+      contracts:Array,
     filterKey: String,
   },
   components:{
@@ -49,111 +54,13 @@
   },
     data() {
       return {
-        members: [
-        {
-          "office": "A206",
-          "company": "迪士尼有限公司",
-          "startDate": "2021/09/17",
-          "endDate": "2022/09/16",
-          "rent": "$17000",
-          "status": "租金已繳"
-        },
-        {
-          "office": "B102",
-          "company": "微軟有限公司",
-          "startDate": "2021/01/01", 
-          "endDate": "2021/12/31",
-          "rent": "$15000",
-          "status": "租金已繳"
-        },
-        {
-          "office": "C304",
-          "company": "亞馬遜企業",
-          "startDate": "2021/02/15", 
-          "endDate": "2022/02/14",
-          "rent": "$18000",
-          "status": "尚未繳納"
-        },
-        {
-          "office": "D501",
-          "company": "華碩有限公司",
-          "startDate": "2021/03/10", 
-          "endDate": "2022/03/09",
-          "rent": "$20000",
-          "status": "租金已繳"
-        },
-        {
-          "office": "E202",
-          "company": "河堤國際商旅",
-          "startDate": "2021/04/20",
-          "endDate": "2022/04/19",
-          "rent": "$17000",
-          "status": "尚未繳納"
-        },
-        {
-          "office": "F403",
-          "company": "凱悅國際股份有限公司",
-          "startDate": "2021/05/05", 
-          "endDate": "2022/05/04",
-          "rent": "$15000",
-          "status": "租金已繳"
-        },
-        {
-          "office": "G601",
-          "company": "IHG國際有限公司",
-          "startDate": "2021/06/15", 
-          "endDate": "2022/06/14",
-          "rent": "$18000",
-          "status": "租金已繳"
-        },
-        {
-          "office": "H304",
-          "company": "勝瑋科技股份有限公司",
-          "startDate": "2021/07/25", 
-          "endDate": "2022/07/24",
-          "rent": "$20000",
-          "status": "尚未繳納"
-        },
-        {
-          "office": "I505",
-          "company": "",
-          "startDate": "", 
-          "endDate": "",
-          "rent": "$10700",
-          "status": ""
-        },
-        {
-          "office": "H304",
-          "company": "勝瑋科技股份有限公司",
-          "startDate": "2021/09/18", 
-          "endDate": "2022/09/17",
-          "rent": "$20000",
-          "status": "尚未繳納"
-        },
-        {
-          "office": "I505",
-          "company": "光泉股份有限公司",
-          "startDate": "2021/10/30", 
-          "endDate": "2022/10/29",
-          "rent": "$17000",
-          "status": "租金已繳"
-        }
-      ],
-        sortKey: '',
-        sortOrders: {
-            company: 1,
-            name: 1,
-            phone: 1,
-            email: 1,
-            address: 1
-        },
         searchQuery: ''
       };
     },
     computed: {
     filteredMembers() {
       const filterKey = this.filterKey.toLowerCase();
-      let data = this.members;
+      let data = this.contracts;
 
       if (filterKey) {
         data = data.filter((row) => {
@@ -187,15 +94,15 @@
       this.sortOrders[key] = this.sortOrders[key] === 1 ? -1 : 1;
     },
     getButtonComponent(member) {
-      if (this.isEmpty(member.company) || this.isEmpty(member.office) || this.isEmpty(member.startDate)|| this.isEmpty(member.endDate) || this.isEmpty(member.rent) || this.isEmpty(member.status)) {
-        return 'AddInfoButton';
-      } else {
-        return 'InfoButton';
-      }
-    },
+  if (this.isEmpty(member.company)) {
+    return 'AddInfoButton';
+  } else {
+    return 'InfoButton';
+  }
+},
     isEmpty(value) {
-      return value === null || value === undefined || value === '';
-    },
+    return value === null || value === undefined || value === '';
+  },
   }
 };
 </script>
@@ -262,8 +169,10 @@
   .thead-table th:nth-child(6) {
     width: 10%;
   }
-  
   .thead-table th:nth-child(7) {
+    width: 10%;
+  }
+  .thead-table th:nth-child(8) {
     width: 18%;
     text-align: center;
   }
@@ -284,10 +193,10 @@
   }
   
   .tbody-table td:nth-child(2) {
-    width: 10%;
+    width: 12%;
   }
   .tbody-table td:nth-child(3) {
-    width: 5%;
+    width: 6%;
   }
   
   .tbody-table td:nth-child(4) {
@@ -301,6 +210,9 @@
   }
   
   .tbody-table td:nth-child(7) {
+    width: 4%;
+  }
+  .tbody-table td:nth-child(8) {
     width: 4%;
     text-align: center;
     /* padding-right: 2px ; */

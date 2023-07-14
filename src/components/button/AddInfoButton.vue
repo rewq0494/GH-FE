@@ -1,8 +1,8 @@
 <template>
   <div>
-    <button type="button" class="info-btn" @click="openDialog">新增資訊</button>
+    <button type="button" class="info-btn" @click="openDialog">更新資訊</button>
     <div v-if="showAddLeaseDialog">
-      <dialog-box @close="closeDialog" @confirm="openSuccessDialog" />
+      <dialog-box :officeId="officeId" @close="closeDialog" @confirm="openSuccessDialog" />
     </div>
     <add-success-dialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
   </div>
@@ -17,6 +17,12 @@ export default {
     'dialog-box': AddLeaseDialog,
     'add-success-dialog': AddSuccessDialog,
   },
+  props: {
+    officeId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       showAddLeaseDialog: false,
@@ -25,7 +31,7 @@ export default {
   },
   methods: {
     openDialog() {
-      console.log('按鈕反應');
+      console.log('按鈕反應',this.officeId);
       this.showAddLeaseDialog = true;
     },
     closeDialog() {

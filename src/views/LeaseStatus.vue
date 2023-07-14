@@ -3,7 +3,7 @@
   <div class="title">租賃狀況</div>
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
-    <LeaseData :filter-key="searchQuery" />
+    <LeaseData :contracts="contracts" :filter-key="searchQuery" />
   </div>
   <AddMemberDialog v-if="showDialog" @close="closeDialog"/>
 </template>
@@ -12,33 +12,47 @@
 import SearchButton from '../components/button/SearchButton.vue';
 import LeaseData from '../components/data-list/LeaseData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
-import SidebarMenu from '../components/SidebarMenu.vue'
-
+import SidebarMenu from '../components/SidebarMenu.vue';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
-name: 'MemberList',
-components: {
-  SearchButton,
-  LeaseData,
-  AddMemberDialog,
-  SidebarMenu,
-
-},
-data() {
-  return {
-    showDialog: false,
-    searchQuery: '',
-
-  };
-},
-methods: {
-  updateSearchQuery(searchTerm) {
-    this.searchQuery = searchTerm;
+  name: 'MemberList',
+  components: {
+    SearchButton,
+    LeaseData,
+    AddMemberDialog,
+    SidebarMenu,
   },
- 
-},
+  data() {
+    return {
+      showDialog: false,
+      searchQuery: '',
+      contracts: [],
+    };
+  },
+  methods: {
+    updateSearchQuery(searchTerm) {
+      this.searchQuery = searchTerm;
+    },
+    fetchData() {
+      axios
+        .get('/contract')
+        .then(response => {
+          this.contracts = response.data;
+          console.log(this.contracts)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
 };
 </script>
+
 
 
 <!-- ----------------------------------- -->
