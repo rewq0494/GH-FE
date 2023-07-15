@@ -4,25 +4,24 @@
     <h2>新增訂單</h2>
     <div class="add-area">
       <label>
-      <h3>訂單編號</h3>
-      <input class="add-box" type="text">
-    </label>
+        <h3>訂單編號</h3>
+        <input class="add-box" type="text" v-model="tradeNo" ref="tradeNoInput">
+      </label>
       <label>
         <h3>教室</h3>
-        <select class="add-box" id="class-box">
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
+        <select class="add-box" v-model="meetingroomId" ref="meetingroomIdInput">
+          <option value="MR001">A</option>
+          <option value="MR002">B</option>
+          <option value="MR003">C</option>
         </select>
       </label>
       <label>
         <h3>日期</h3>
-        <vue-flatpickr v-model="selectedDate"></vue-flatpickr>
+        <vue-flatpickr v-model="rentalDate" ref="rentalDateInput"></vue-flatpickr>
       </label>
-
       <label>
         <h3>時段</h3>
-        <select class="add-box" id="time-box">
+        <select class="add-box" v-model="rentalTime" ref="rentalTimeInput">
           <option value="1">09:00-12:00</option>
           <option value="2">12:00-15:00</option>
           <option value="3">15:00-18:00</option>
@@ -30,23 +29,18 @@
       </label>
       <label>
         <h3>活動名稱</h3>
-        <input class="add-box" type="text">
+        <input class="add-box" type="text" v-model="activityName" ref="activityNameInput">
       </label>
-
       <label>
         <h3>電話</h3>
-        <input class="add-box" type="text">
+        <input class="add-box" type="text" v-model="memberPhone" @blur="fetchContactInfo" ref="memberPhoneInput">
       </label>
-    
       <label>
         <h3 id="note-h3">備註</h3>
-        <input class="add-box" id="note-box" type="text">
+        <input class="add-box"  id="note-box" type="text" v-model="remark" ref="remarkInput">
       </label>
-      <!-- <div class="deposit"><h3>訂金：</h3><p>{{ deposit }}</p></div>
-      <div class="total"><h3>總額：</h3><p>{{ total }}</p></div> -->
-     
     </div>
-      
+
     <button class="btn-close" @click="closeDialog">取消</button>
     <button class="btn-confirm" @click="handleConfirm">確定</button>
   </div>
@@ -58,10 +52,10 @@ import AddSuccessDialog from './AddSuccessDialog.vue';
 import VueFlatpickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import flatpickr from 'flatpickr';
-import {onMounted } from 'vue';
+import { onMounted } from 'vue';
+import axios from 'axios';
 
 export default {
-  
   emits: ['close', 'confirm'],
   components: {
     AddSuccessDialog,
@@ -69,44 +63,90 @@ export default {
   },
   data() {
     return {
-      // deposit: '$2100',
-      // total: '$4700',
       showDialog: false,
       showSuccessDialog: false,
-      selectedDate: null,
-      flatpickrConfig: {
-        inline: true,}
-    }
+      tradeNo: '', // 新增的訂單編號屬性
+      meetingroomId: '',
+      rentalDate: null,
+      rentalTime: '',
+      activityName: '',
+      memberName: '',
+      memberPhone: '',
+      memberEmail: '',
+      companyName: '',
+      companyTaxid: '',
+      remark: ''
+    };
   },
   methods: {
-    
     closeDialog() {
       this.$emit('close');
     },
     handleConfirm() {
-  console.log('新增成功');
-  this.$emit('confirm');
-  this.showSuccessDialog = true;
-},
+      const data = {
+        tradeNo: this.tradeNo,
+        meetingroomId: this.meetingroomId,
+        rentalDate: this.rentalDate,
+        rentalTime: this.rentalTime,
+        activityName: this.activityName,
+        memberName: this.memberName,
+        memberPhone: this.memberPhone,
+        memberEmail: this.memberEmail,
+        companyName: this.companyName,
+        companyTaxid: this.companyTaxid,
+        remark: this.remark
+      };
+
+      axios
+        .post('http://localhost:8080/meetings/insert', data)
+        .then(response => {
+          console.log('新增成功', response.data);
+          this.$emit('confirm');
+          this.showSuccessDialog = true;
+        })
+        .catch(error => {
+          console.error('新增失敗', error);
+        });
+    },
+    fetchContactInfo() {
+      const phoneNumber = this.memberPhone;
+
+      // 使用適當的 API 端點和參數來查詢聯絡人資訊
+      axios
+        .get(`http://localhost:8080/booking/profile/${phoneNumber}`)
+        .then(response => {
+          const contactInfo = response.data;
+          this.memberName = contactInfo.memberName;
+          this.memberEmail = contactInfo.memberEmail;
+          this.companyName = contactInfo.company.companyName;
+          this.companyTaxid = contactInfo.company.companyTaxId;
+        })
+        .catch(error => {
+          console.error('查詢聯絡人資訊失敗', error);
+        });
+    }
   },
   mounted() {
     onMounted(() => {
-    flatpickr(this.$refs.datePickerInput, {
-      monthSelectorType: 'long'
-      // 其他Flatpickr的配置選項
-    });});
-    // 在 mounted 鉤子函數中引入 dark.css 主題樣式表
-    require("flatpickr/dist/themes/confetti.css");
-    
+      flatpickr(this.$refs.rentalDateInput, {
+        monthSelectorType: 'long'
+        // 其他Flatpickr的配置選項
+      });
+    });
+    // 在 mounted 鉤子函數中引入 confetti.css 主題樣式表
+    require('flatpickr/dist/themes/confetti.css');
   }
 };
 </script>
+
+
 
 
 <style scoped>
 *{
   font-family: '微軟正黑體';
 }
+
 .overlay {
   position: fixed;
   top: 0;
