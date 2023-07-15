@@ -1,7 +1,7 @@
 <template>
       <SidebarMenu/>
   <div class="title">會議教室</div>
-  <AddOrderButton/>
+  <AddOrderButton />
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
     <MeetingData :filter-key="searchQuery" />
@@ -75,5 +75,6 @@ margin-left: 50px;
 margin-right: 70px;
 color: #FFE4D0;
 }
+
 
 </style>

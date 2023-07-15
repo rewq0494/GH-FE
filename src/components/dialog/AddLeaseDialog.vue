@@ -9,19 +9,22 @@
       </label>
 
       <label>
-        <h3>租期</h3>
-        <input class="add-box" type="text">
+        <h3>起租日期</h3>
+        <vue-flatpickr v-model="selectedDate"></vue-flatpickr>
       </label>
 
       <label>
-        <h3>租金</h3>
+        <h3>約期</h3>
         <input class="add-box" type="text">
       </label>
-
       <label>
-        <h3>館別</h3>
-        <input class="add-box" type="tel">
+        <h3>繳納狀態</h3>
+      <select class="add-box" id="select-box">
+          <option value="A">本月已繳</option>
+          <option value="B">尚未繳納</option>
+        </select>
       </label>
+  
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>
     <button class="btn-confirm" @click="handleConfirm">確定</button>
@@ -31,16 +34,26 @@
 
 <script>
 import AddSuccessDialog from './AddSuccessDialog.vue';
+import VueFlatpickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+import flatpickr from 'flatpickr';
+import {onMounted } from 'vue';
+
+
 
 export default {
   emits: ['close', 'confirm'],
   components: {
-    AddSuccessDialog
+    AddSuccessDialog,
+    VueFlatpickr,
+    // flatpickr,
   },
   data() {
     return {
       showDialog: false,
-      showSuccessDialog: false
+      showSuccessDialog: false,
+      flatpickrConfig: {
+        inline: true,}
     }
   },
   methods: {
@@ -52,6 +65,16 @@ export default {
   this.$emit('confirm');
   this.showSuccessDialog = true;
 },
+mounted() {
+    onMounted(() => {
+    flatpickr(this.$refs.datePickerInput, {
+      monthSelectorType: 'long'
+      // 其他Flatpickr的配置選項
+    });});
+    // 在 mounted 鉤子函數中引入 dark.css 主題樣式表
+    require("flatpickr/dist/themes/confetti.css");
+    
+  }
   }
 };
 </script>
@@ -72,11 +95,11 @@ export default {
 }
 .add-mb-dialog{
   width: 580px;
-  height: 400px;;
+  height: 420px;;
   background-color: #ffffff;
   position: fixed;
   z-index: 99999;
-  top: 20%;
+  top: 23%;
   left: 30%;
   border-radius: 20px;
 }
@@ -129,7 +152,7 @@ export default {
 .add-mb-dialog label {
   display: flex;
   /* align-items: center; */
-  margin-bottom: 10px;
+  margin-bottom: 18px;
   height: 40px;
 }
 
@@ -153,4 +176,21 @@ export default {
   font-size: 14px;
   padding-left: 10px;
 }
+#select-box{
+  cursor: pointer;
+  width: 313px;
+  height: 38px;
+}
+.flatpickr-input {
+    position: absolute;
+    background-color: #FFF7EA;
+    width: 300px;
+    height: 36px;
+    left: 150px;
+    border-radius: 10px;
+    border: 0px;
+    outline: none;
+    padding-left: 10px;
+}
+
 </style>

@@ -5,28 +5,29 @@
 <div class="edit-area">
    <label>
     <h3>公司</h3>
-    <input class="edit-box" type="text">
+    <input class="edit-box" type="text" value="默默有限公司">
   </label>
 
 
-  <label>
-    <h3>統編</h3>
-    <input class="edit-box" type="text">
-  </label>
 
   <label>
   <h3>聯絡人</h3>
-    <input class="edit-box" type="text">
+    <input class="edit-box" type="text" value="波利">
     </label>
 
   <label>
     <h3>電話</h3>
-    <input class="edit-box" type="tel">
+    <input class="edit-box" type="tel" value="127-456-7890">
   </label>
 
+  
+  <label>
+    <h3>信箱</h3>
+    <input class="edit-box" type="text" value="jfohn@example.com">
+  </label>
   <label>
     <h3>地址</h3>
-    <input class="edit-box" type="text">
+    <input class="edit-box" type="text" value="新竹">
   </label>
 </div>
    <button class="btn-close" @click="closeDialog">取消</button>

@@ -11,7 +11,7 @@
                     <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
                     <th @click="sortBy('startDate')" :class="{ active: sortKey === 'startDate' }">起租日期
                         <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('endDate')" :class="{ active: sortKey === 'endDate' }">結束日期
+                    <th @click="sortBy('endDate')" :class="{ active: sortKey === 'endDate' }">約期
                         <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
                     <th @click="sortBy('rent')" :class="{ active: sortKey === 'rent' }">租金
                         <span class="arrow" :class="{ 'asc': sortKey === 'company' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'company' && sortOrders[sortKey] === -1 }"></span></th>
@@ -54,7 +54,7 @@
           "office": "A206",
           "company": "迪士尼有限公司",
           "startDate": "2021/09/17",
-          "endDate": "2022/09/16",
+          "endDate": "一年",
           "rent": "$17000",
           "status": "租金已繳"
         },
@@ -62,7 +62,7 @@
           "office": "B102",
           "company": "微軟有限公司",
           "startDate": "2021/01/01", 
-          "endDate": "2021/12/31",
+          "endDate": "一年",
           "rent": "$15000",
           "status": "租金已繳"
         },
@@ -70,7 +70,7 @@
           "office": "C304",
           "company": "亞馬遜企業",
           "startDate": "2021/02/15", 
-          "endDate": "2022/02/14",
+          "endDate": "二年",
           "rent": "$18000",
           "status": "尚未繳納"
         },
@@ -78,7 +78,7 @@
           "office": "D501",
           "company": "華碩有限公司",
           "startDate": "2021/03/10", 
-          "endDate": "2022/03/09",
+          "endDate": "六個月",
           "rent": "$20000",
           "status": "租金已繳"
         },
@@ -86,7 +86,7 @@
           "office": "E202",
           "company": "河堤國際商旅",
           "startDate": "2021/04/20",
-          "endDate": "2022/04/19",
+          "endDate": "六個月",
           "rent": "$17000",
           "status": "尚未繳納"
         },
@@ -94,7 +94,7 @@
           "office": "F403",
           "company": "凱悅國際股份有限公司",
           "startDate": "2021/05/05", 
-          "endDate": "2022/05/04",
+          "endDate": "一年",
           "rent": "$15000",
           "status": "租金已繳"
         },
@@ -102,7 +102,7 @@
           "office": "G601",
           "company": "IHG國際有限公司",
           "startDate": "2021/06/15", 
-          "endDate": "2022/06/14",
+          "endDate": "二年",
           "rent": "$18000",
           "status": "租金已繳"
         },
@@ -110,23 +110,23 @@
           "office": "H304",
           "company": "勝瑋科技股份有限公司",
           "startDate": "2021/07/25", 
-          "endDate": "2022/07/24",
+          "endDate": "一年",
           "rent": "$20000",
           "status": "尚未繳納"
         },
         {
           "office": "I505",
-          "company": "",
-          "startDate": "", 
-          "endDate": "",
+          "company": "資展國際有限公司",
+          "startDate": "2023/07/10", 
+          "endDate": "一年",
           "rent": "$10700",
-          "status": ""
+          "status": "本月已繳"
         },
         {
           "office": "H304",
           "company": "勝瑋科技股份有限公司",
           "startDate": "2021/09/18", 
-          "endDate": "2022/09/17",
+          "endDate": "六個月",
           "rent": "$20000",
           "status": "尚未繳納"
         },
@@ -134,7 +134,7 @@
           "office": "I505",
           "company": "光泉股份有限公司",
           "startDate": "2021/10/30", 
-          "endDate": "2022/10/29",
+          "endDate": "六個月",
           "rent": "$17000",
           "status": "租金已繳"
         }
@@ -352,6 +352,8 @@
 /* 設置整個滾動條的寬度和高度 */
 ::-webkit-scrollbar {
 width: 7px;
+background-color: rgba(98, 83, 65, 0.4);
+
 }
 
 /* 滾動條的按鈕部分（上下箭頭按鈕） */

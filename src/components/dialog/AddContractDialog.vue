@@ -4,13 +4,28 @@
     <h2>新增合約</h2>
     <div class="add-area">
       <label>
-        <h3>公司</h3>
+        <h3>辦公室
+        </h3>
         <input class="add-box" type="text">
       </label>
 
       <label>
-        <h3>負責人</h3>
+        <h3>統編</h3>
         <input class="add-box" type="text">
+      </label>
+      
+      <label>
+        <h3>電話</h3>
+        <input class="add-box" type="text">
+      </label>
+      
+      <label>
+        <h3>付款方式</h3>
+      <select class="add-box" id="select-box">
+          <option value="A">現金</option>
+          <option value="B">匯款</option>
+          <option value="C">線上支付</option>
+        </select>
       </label>
 
       <label>
@@ -23,6 +38,11 @@
         <h3>結束日期</h3>
         <!-- <input class="add-box" type="date"> -->
         <vue-flatpickr v-model="selectedDate"></vue-flatpickr>
+      </label>
+
+      <label class="note">
+        <h3>備註</h3>
+        <input class="add-box" type="text">
       </label>
       <UploadBox/>
     </div>
@@ -97,18 +117,18 @@ export default {
   z-index: 9999; /* 确保遮罩层在其他内容之上 */
 }
 .add-contract-dialog{
-  width: 450px;
+  width: 750px;
   height: 480px;;
   background-color: #ffffff;
   position: relative;
   z-index: 99999;
-  top: 75px;
-  left: 35%;
+  top: 105px;
+  left: 400px;
   border-radius: 20px;
 }
 .btn-close{
   position: absolute;
-  left: 37%;
+  left: 41%;
   bottom: 6%;
   width: 60px;
   height: 38px;
@@ -124,7 +144,7 @@ export default {
 }
 .btn-confirm{
   position: absolute;
-  left: 53%;
+  left: 50%;
   bottom: 6%;
   width: 60px;
   height: 38px;
@@ -169,7 +189,7 @@ export default {
 .add-box{
   position: absolute;
   background-color: #FFF0DE;
-  width: 250px;
+  width: 200px;
   height: 36px;
   left: 130px;
   border-radius: 10px;
@@ -179,12 +199,30 @@ export default {
   font-size: 14px;
   padding-left: 10px;
 }
+#select-box{
+  cursor: pointer;
+  width: 210px;
+  height: 38px;
+}
+.note{
+  position: absolute;
+  width: 200px;
+  height: 38px;
+  left: 340px;
+  top:0px;
+}
+.note input{
+  height:120px;
+  width: 220px;
+  left: 100px;
+}
+
 
   /* 日期選擇器 */
   .flatpickr-input {
     position: absolute;
     background-color: #FFF0DE;
-    width: 250px;
+    width: 200px;
     height: 36px;
     left: 130px;
     border-radius: 10px;

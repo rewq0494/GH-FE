@@ -291,11 +291,11 @@
     text-align: left;
   }
   .tbody-table td:nth-child(1) {
-    width: 4%;
+    width: 2%;
   }
   
   .tbody-table td:nth-child(2) {
-    width: 5%;
+    width: 7%;
   }
   .tbody-table td:nth-child(3) {
     width: 5%;
@@ -363,6 +363,8 @@
 /* 設置整個滾動條的寬度和高度 */
 ::-webkit-scrollbar {
 width: 7px;
+background-color: rgba(98, 83, 65, 0.4);
+
 }
 
 /* 滾動條的按鈕部分（上下箭頭按鈕） */

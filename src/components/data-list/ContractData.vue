@@ -27,7 +27,7 @@
                     <td>{{ member.RPerson }}</td>
                     <td>{{ member.startDate }}</td>
                     <td>{{ member.endDate }}</td>
-                    <td>{{ member.contract }}</td>
+                    <td><img src="../../assets/dialog-icon/pdf.png">{{ member.contract }}</td>
                     <td><EditContractButton/></td>
                     <td><DeleteMbButton/></td>
                 </tr>
@@ -321,15 +321,13 @@
   cursor: pointer;
  }
   
-  .edit-icon {
-    width: 20px;
-    height: 20px;
-  }
-  .delete-icon {
-    width: 20px;
-    height: 20px;
-  }
 
+
+  img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
   .arrow {
   display: inline-block;
   vertical-align: middle;
@@ -354,6 +352,8 @@
 /* 設置整個滾動條的寬度和高度 */
 ::-webkit-scrollbar {
 width: 7px;
+background-color: rgba(98, 83, 65, 0.4);
+
 }
 
 /* 滾動條的按鈕部分（上下箭頭按鈕） */

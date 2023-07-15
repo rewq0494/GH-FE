@@ -4,8 +4,12 @@
     <h2>新增訂單</h2>
     <div class="add-area">
       <label>
+      <h3>訂單編號</h3>
+      <input class="add-box" type="text">
+    </label>
+      <label>
         <h3>教室</h3>
-        <select class="add-box">
+        <select class="add-box" id="class-box">
           <option value="A">A</option>
           <option value="B">B</option>
           <option value="C">C</option>
@@ -18,7 +22,7 @@
 
       <label>
         <h3>時段</h3>
-        <select class="add-box">
+        <select class="add-box" id="time-box">
           <option value="1">09:00-12:00</option>
           <option value="2">12:00-15:00</option>
           <option value="3">15:00-18:00</option>
@@ -30,30 +34,16 @@
       </label>
 
       <label>
-        <h3>聯絡人</h3>
-        <input class="add-box" type="text">
-      </label>
-      <label>
         <h3>電話</h3>
         <input class="add-box" type="text">
       </label>
-      <label>
-        <h3>信箱</h3>
-        <input class="add-box" type="text">
-      </label>
-      <label>
-        <h3>公司</h3>
-        <input class="add-box" type="text">
-      </label>
-      <label>
-        <h3>統編</h3>
-        <input class="add-box" type="text">
-      </label>
+    
       <label>
         <h3 id="note-h3">備註</h3>
         <input class="add-box" id="note-box" type="text">
       </label>
-
+      <!-- <div class="deposit"><h3>訂金：</h3><p>{{ deposit }}</p></div>
+      <div class="total"><h3>總額：</h3><p>{{ total }}</p></div> -->
      
     </div>
       
@@ -79,6 +69,8 @@ export default {
   },
   data() {
     return {
+      // deposit: '$2100',
+      // total: '$4700',
       showDialog: false,
       showSuccessDialog: false,
       selectedDate: null,
@@ -125,18 +117,18 @@ export default {
   z-index: 9999; /* 确保遮罩层在其他内容之上 */
 }
 .add-order-dialog{
-  width: 920px;
-  height: 600px;;
+  width: 800px;
+  height: 500px;;
   background-color: #ffffff;
   position: fixed;
   z-index: 99999;
-  top: 9%;
-  left: 20%;
+  top: 18%;
+  left: 25%;
   border-radius: 20px;
 }
 .btn-close{
   position: absolute;
-  left: 37%;
+  left: 42%;
   bottom: 6%;
   width: 60px;
   height: 38px;
@@ -152,7 +144,7 @@ export default {
 }
 .btn-confirm{
   position: absolute;
-  left: 53%;
+  left: 51%;
   bottom: 6%;
   width: 60px;
   height: 38px;
@@ -175,30 +167,31 @@ export default {
 }
 .add-area{
   position: relative;
-  top: 30px;
+  top: 60px;
+  left: 30px;
 }
 
 
 .add-order-dialog label {
   display: flex;
   /* align-items: center; */
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   height: 40px;
 }
 .add-order-dialog h3{
   font-size: 16px;
   position: relative;
   top: -5px;
-  left: 50px;
+  left: 30px;
   text-align: center;
   color: #777777;
 }
 .add-box{
   position: absolute;
   background-color: #FFF0DE;
-  width: 250px;
-  height: 30px;
-  left: 130px;
+  width: 220px;
+  height: 33px;
+  left: 115px;
   border-radius: 10px;
   border: 0px;
   outline: none;
@@ -206,33 +199,72 @@ export default {
   font-size: 14px;
   padding-left: 10px;
 }
+#class-box{
+  width: 232px;
+  height: 35px;
+}
+#time-box{
+  width: 232px;
+  height: 35px;
+}
 #note-h3{
   color: #777777;
   position: absolute;
-    left: 500px;
-    top: 10px;
+    left: 390px;
+    top: -10px;
 }
 #note-box{
     background-color: #FFF0DE;
     position: absolute;
-    left: 500px;
-    top: 50px;
-    width: 300px;
-    height: 150px;
+    left: 430px;
+    top: 0px;
+    width: 280px;
+    height: 130px;
     border-radius: 5px;
+}
+.deposit {
+  display: flex; /* 使用弹性布局 */
+  align-items: center; /* 垂直居中对齐 */
+  text-align: left;
+  font-size: 16px;
+  position: absolute;
+  top: 300px;
+  right:320px;
+}
+.deposit p{
+  color: #D65151;
+  position: relative;
+  top: -5px;
+  left: 75px;
+}
+.total {
+  display: flex; /* 使用弹性布局 */
+  align-items: center; /* 垂直居中对齐 */
+  text-align: left;
+  font-size: 16px;
+  position: absolute;
+  top: 330px;
+  right:320px;
+}
+.total p{
+  color: #D65151;
+  position: relative;
+  left: 75px;
+  top: -5px;
 }
 
   /* 日期選擇器 */
   .flatpickr-input {
     position: absolute;
     background-color: #FFF0DE;
-    width: 250px;
+    width: 220px;
     height: 30px;
-    left: 130px;
+    left: 115px;
     border-radius: 10px;
     border: 0px;
     outline: none;
     padding-left: 10px;
+    color: #777777;
 }
 
 

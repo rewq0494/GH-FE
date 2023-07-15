@@ -65,7 +65,7 @@
 /*設備服務介紹開始*/
 .content-what {
     background-color: #383838;
-  margin: 0px 0px 3em;
+  margin: 0px 0px 0em;
   height: 490px;
  }
  
@@ -105,12 +105,6 @@
    margin-bottom: 2px;
  }
  
- .content-we h2 a{
-  text-decoration:none;
- }
- .content-we h2 a:hover{
-  color:#23B7A4;
- }
  /*---content-we-are---*/
  .content-we-are {
   margin: 0em 0em 7em;

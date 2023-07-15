@@ -67,13 +67,12 @@ export default {
 }
   .upload-area{
     position:absolute;
-    top: 194px;
-    left: 130px;
+    top: 130px;
+    left: 440px;
   }
-  .table { border-collapse: collapse; }
   .dropbox {
-    width: 260px;
-    height: 60px;
+    width: 230px;
+    height: 120px;
     border-radius: 8px;
     background-color: #FFF0DE;
     text-align: center;
@@ -110,8 +109,8 @@ export default {
     width: 30px;
     height: 30px;
     position: absolute;
-    top: 30px;
-    left: 110px;
+    top: 60px;
+    left: 100px;
   }
   .pdf-icon{
      width: 20px;

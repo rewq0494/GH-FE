@@ -2,11 +2,11 @@
       <!-- 首頁三格窗 -->
       <br><br>
   <div class="container">
-    <div id="office-section" class="section">
+  <div id="office-section" class="section">
       <div class="content">
-        <h1>辦公室</h1>
+        <router-link class="link" to="/OfficePage"><h1>辦公室</h1></router-link>
         <hr>
-        <p>Start Your Business At Gather Hub </p>
+        <!-- <p>Start Your Business At Gather Hub </p> -->
       </div>
       <div class="overlay"></div>
     </div>
@@ -14,7 +14,7 @@
       <div class="content">
         <h1>會議教室</h1>
         <hr>
-        <p>Everything could happen in Gather Hub </p>
+        <!-- <p>Everything could happen in Gather Hub </p> -->
       </div>
       <div class="overlay"></div>
     </div>
@@ -22,7 +22,7 @@
       <div class="content">
         <h1>交通資訊</h1>
         <hr>
-        <p>Touring Gather Hub, Surprise Everywhere.</p>
+        <!-- <p>Touring Gather Hub, Surprise Everywhere.</p> -->
       </div>
       <div class="overlay"></div>
     </div>
@@ -34,6 +34,10 @@
 <style scoped>
 h1 {
   text-align: center;
+}
+.link{
+  text-decoration-line: none;
+  color: #fff;
 }
 .container {
     top: 30px;
@@ -53,10 +57,11 @@ h1 {
   color: #fff;
   transition: flex .4s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .section .overlay {
-  background-color: rgba(46, 46, 46, 0.547);
+  background-color: rgba(145, 142, 142, 0.547);
   width: 100%;
   height: 100%;
   position: absolute;

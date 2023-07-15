@@ -55,7 +55,7 @@ export default {
       width: 90px;
       height: 36px;
       position: fixed;
-      right: 18%;
+      right: 20%;  /*專題後要改回18% 其他畫面是18%*/
       top: 12%;
       background: #FBF8F8;
       border: 1px solid #A4947C;

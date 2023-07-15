@@ -75,8 +75,8 @@
           {
             company: '默默有限公司',
             name: '波利',
-            phone: '127-456-7890',
-            email: 'jfohn@example.com',
+            phone: '04-555-5555',
+            email: 'happy@example.com',
             address: '新竹'
           },
           {
@@ -120,7 +120,14 @@
             phone: '123-456-7890',
             email: 'jowhn@example.com',
             address: '台東'
-          }
+          },
+          // {
+          //   company: '資展國際有限公司',
+          //   name: '郭哲偉',
+          //   phone: '04-5489-4321',
+          //   email: 'abcd1234@gmail.com',
+          //   address: '台中市南屯區文心南三路47號'
+          // }
         ],
         sortKey: '',
         sortOrders: {
@@ -330,6 +337,8 @@
 /* 設置整個滾動條的寬度和高度 */
 ::-webkit-scrollbar {
 width: 7px;
+background-color: rgba(98, 83, 65, 0.4);
+
 }
 
 /* 滾動條的按鈕部分（上下箭頭按鈕） */
