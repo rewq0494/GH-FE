@@ -5,32 +5,32 @@
     <div class="add-area">
       <label>
         <h3>公司</h3>
-        <input v-model="companyName" class="add-box" type="text">
+        <input v-model="companyName" class="add-box" type="text" />
       </label>
 
       <label>
         <h3>負責人</h3>
-        <input v-model="inCharge" class="add-box" type="text">
+        <input v-model="inCharge" class="add-box" type="text" />
       </label>
 
       <label>
         <h3>會員電話</h3>
-        <input v-model="memberPhone" class="add-box" type="text">
+        <input v-model="memberPhone" class="add-box" type="text" />
       </label>
 
       <label>
         <h3>辦公室編號</h3>
-        <input v-model="officeId" class="add-box" type="text">
+        <input v-model="officeId" class="add-box" type="text" />
       </label>
 
       <label>
         <h3>公司統編</h3>
-        <input v-model="companyTaxid" class="add-box" type="text">
+        <input v-model="companyTaxid" class="add-box" type="text" />
       </label>
 
       <label>
         <h3>付款方式</h3>
-        <input v-model="paymentMethod" class="add-box" type="text">
+        <input v-model="paymentMethod" class="add-box" type="text" />
       </label>
 
       <label>
@@ -47,13 +47,10 @@
 
       <label>
         <h3>備註</h3>
-        <input v-model="remark" class="add-box" type="text">
+        <input v-model="remark" class="add-box" type="text" />
       </label>
-
     </div>
     <UploadBox ref="uploadBoxRef" />
-
-
 
     <button class="btn-close" @click="closeDialog">取消</button>
     <button class="btn-confirm" @click="handleConfirm">確定</button>
@@ -62,21 +59,20 @@
 </template>
 
 <script>
-import axios from 'axios';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.css';
-import { onMounted,toRaw } from 'vue';
-import VueFlatpickr from 'vue-flatpickr-component';
-import UploadBox from '../box/UploadBox.vue';
-import AddSuccessDialog from './AddSuccessDialog.vue';
+import axios from "axios";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import { onMounted, toRaw } from "vue";
+import VueFlatpickr from "vue-flatpickr-component";
+import UploadBox from "../box/UploadBox.vue";
+import AddSuccessDialog from "./AddSuccessDialog.vue";
 
 export default {
-
-  emits: ['close', 'confirm'],
+  emits: ["close", "confirm"],
   components: {
     UploadBox,
     AddSuccessDialog,
-    VueFlatpickr
+    VueFlatpickr,
   },
   data() {
     return {
@@ -85,63 +81,68 @@ export default {
       flatpickrConfig: {
         inline: true,
       },
-      companyName: '',
-      inCharge: '',
-      memberPhone: '',
-      officeId: '',
-      companyTaxid: '',
-      paymentMethod: '',
+      companyName: "",
+      inCharge: "",
+      memberPhone: "",
+      officeId: "",
+      companyTaxid: "",
+      paymentMethod: "",
       startDate: null,
       endDate: null,
-      remark: '',
-      uploadFile: null
-    }
+      remark: "",
+      uploadFile: null,
+    };
   },
   methods: {
-
     setUploadFile() {
       console.log(this.$refs.uploadBoxRef.emitFiles());
     },
 
     async handleConfirm() {
-      this.uploadFile = toRaw(this.$refs.uploadBoxRef.emitFiles()[0])
+      this.uploadFile = toRaw(this.$refs.uploadBoxRef.emitFiles()[0]);
 
-   
-    
+      const blobfile = new Blob([this.uploadFile], {
+        type: "application/pdf",
+      });
 
-      const blobfile = new Blob([this.uploadFile],{
-        type:'application/pdf'
-      })
-    
-  
+      await axios({
+        method: "post",
+        url: "http://localhost:8081/contracts/backstage-add-new-contract",
+        data: {
+          companyName: this.companyName,
+          inCharge: this.inCharge,
+          memberPhone: this.memberPhone,
+          officeId: this.officeId,
+          companyTaxid: this.companyTaxid,
+          paymentMethod: this.paymentMethod,
+          startDate: this.startDate,
+          endDate: this.endDate,
+          remark: this.remark,
+          uploadFile: blobfile,
+        },
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      await axios({ method: 'post', url: 'http://localhost:8080/contracts/backstage-add-new-contract', data: { companyName:this.companyName , inCharge:this.inCharge, memberPhone:this.memberPhone , officeId:this.officeId , companyTaxid:this.companyTaxid , paymentMethod:this.paymentMethod , startDate: this.startDate, endDate: this.endDate, remark:this.remark , uploadFile:blobfile}, headers: { "Content-Type": 'multipart/form-data' } })
-
- 
-
-
-      this.$emit('confirm');
+      this.$emit("confirm");
       this.showSuccessDialog = true;
     },
   },
   mounted() {
     onMounted(() => {
       flatpickr(this.$refs.datePickerInput, {
-        monthSelectorType: 'long'
+        monthSelectorType: "long",
         // 其他Flatpickr的配置選項
       });
     });
     // 在 mounted 鉤子函數中引入 dark.css 主題樣式表
     require("flatpickr/dist/themes/confetti.css");
-
-  }
+  },
 };
 </script>
 
-
 <style scoped>
 * {
-  font-family: '微軟正黑體';
+  font-family: "微軟正黑體";
 }
 
 .overlay {
@@ -159,7 +160,6 @@ export default {
 .add-contract-dialog {
   width: 450px;
   height: 670px;
-  ;
   background-color: #ffffff;
   position: relative;
   z-index: 99999;
@@ -174,8 +174,8 @@ export default {
   bottom: 2%;
   width: 60px;
   height: 38px;
-  color: #FFF;
-  background-color: #F7AF44;
+  color: #fff;
+  background-color: #f7af44;
   border-radius: 40px;
   border: 0px;
   cursor: pointer;
@@ -192,8 +192,8 @@ export default {
   bottom: 2%;
   width: 60px;
   height: 38px;
-  color: #FFF;
-  background-color: #F7AF44;
+  color: #fff;
+  background-color: #f7af44;
   border-radius: 40px;
   border: 0px;
   cursor: pointer;
@@ -208,16 +208,14 @@ export default {
   position: relative;
   top: 30px;
   text-align: center;
-  color: #5C5C5C;
+  color: #5c5c5c;
   font-weight: 500;
 }
 
 .add-area {
   position: relative;
   top: 30px;
-
 }
-
 
 .add-contract-dialog label {
   display: flex;
@@ -237,7 +235,7 @@ export default {
 
 .add-box {
   position: absolute;
-  background-color: #FFF0DE;
+  background-color: #fff0de;
   width: 250px;
   height: 36px;
   left: 130px;
@@ -252,7 +250,7 @@ export default {
 /* 日期選擇器 */
 .flatpickr-input {
   position: absolute;
-  background-color: #FFF0DE;
+  background-color: #fff0de;
   width: 250px;
   height: 36px;
   left: 130px;
@@ -261,7 +259,6 @@ export default {
   outline: none;
   padding-left: 10px;
 }
-
 
 .dayContainer {
   background-color: #f2eee9;
