@@ -122,8 +122,11 @@ export default {
   background-color: #ffffff;
   position: relative;
   z-index: 99999;
+  top: 85px;
+  left: 300px;
+  /* 專題後改回
   top: 105px;
-  left: 400px;
+  left: 400px; */
   border-radius: 20px;
 }
 .btn-close{
