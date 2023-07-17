@@ -12,6 +12,7 @@
         <h3>統編</h3>
         <input class="add-box" type="text" v-model="companyTaxId">
       </label>
+      
 
       <label>
         <h3>聯絡人</h3>
@@ -24,8 +25,8 @@
       </label>
 
       <label>
-        <h3>地址</h3>
-        <input class="add-box" type="text" v-model="address">
+        <h3>信箱</h3>
+        <input class="add-box" type="text">
       </label>
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>

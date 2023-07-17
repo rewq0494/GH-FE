@@ -11,21 +11,30 @@
       <label>
         <h3>公司名稱</h3>
         <input class="add-box" type="tel" v-model="paymentStatus">
+        <h3>起租日期</h3>
+        <vue-flatpickr v-model="selectedDate"></vue-flatpickr>
       </label>
       <label>
         <h3>起租日期</h3>
         <input class="add-box" type="text" v-model="startDate">
+        <h3>約期</h3>
+        <input class="add-box" type="text">
       </label>
-
       <label>
         <h3>結束日期</h3>
         <input class="add-box" type="text" v-model="endDate">
+        <h3>繳納狀態</h3>
+      <select class="add-box" id="select-box">
+          <option value="A">本月已繳</option>
+          <option value="B">尚未繳納</option>
+        </select>
       </label>
 
       <!-- <label>
         <h3>繳納狀態</h3>
         <input class="add-box" type="tel" v-model="paymentStatus">
       </label> -->
+  
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>
     <button class="btn-confirm" @click="handleConfirm">確定</button>
@@ -41,7 +50,9 @@ axios.defaults.baseURL = 'http://localhost:8080';
 export default {
   emits: ['close', 'confirm'],
   components: {
-    AddSuccessDialog
+    AddSuccessDialog,
+    VueFlatpickr,
+    // flatpickr,
   },
   props: {
     officeId: {
@@ -109,11 +120,11 @@ export default {
 }
 .add-mb-dialog{
   width: 580px;
-  height: 400px;;
+  height: 420px;;
   background-color: #ffffff;
   position: fixed;
   z-index: 99999;
-  top: 20%;
+  top: 23%;
   left: 30%;
   border-radius: 20px;
 }
@@ -166,7 +177,7 @@ export default {
 .add-mb-dialog label {
   display: flex;
   /* align-items: center; */
-  margin-bottom: 10px;
+  margin-bottom: 18px;
   height: 40px;
 }
 
@@ -190,4 +201,21 @@ export default {
   font-size: 14px;
   padding-left: 10px;
 }
+#select-box{
+  cursor: pointer;
+  width: 313px;
+  height: 38px;
+}
+.flatpickr-input {
+    position: absolute;
+    background-color: #FFF7EA;
+    width: 300px;
+    height: 36px;
+    left: 150px;
+    border-radius: 10px;
+    border: 0px;
+    outline: none;
+    padding-left: 10px;
+}
+
 </style>

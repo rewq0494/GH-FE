@@ -8,7 +8,7 @@
               <li><a href="">品牌理念</a></li>
               <li><a href="">課程資訊</a></li>
               <li><a href="">交通資訊</a></li>
-              <li><a href="">會員登入</a></li>
+              <li><router-link to="/LoginPage">會員登入</router-link></li>
           </ul>
           </nav>
       </div>
@@ -96,7 +96,7 @@ nav {
   float: right;
   position: absolute;
   top: 0;
-  right: 200px;
+  right: 0px;
 }
 
 nav ul {
