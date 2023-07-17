@@ -21,7 +21,7 @@
           <th @click="sortBy('rent')" :class="{ active: sortKey === 'rent' }">租金
             <span class="arrow" :class="{ 'asc': sortKey === 'rent' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'rent' && sortOrders[sortKey] === -1 }"></span>
           </th>
-          <th @click="sortBy('status')" :class="{ active: sortKey === 'status' }">繳納狀態</th>
+          <th @click="sortBy('status')" :class="{ active: sortKey === 'status' }"></th>
           <th></th>
         </tr>
       </thead>
@@ -169,26 +169,26 @@ export default {
     }
   
   .thead-table th:nth-child(2) {
-    width: 21%;
+    width: 20%;
   }
   .thead-table th:nth-child(3) {
-    width: 14%;
+    width: 10%;
   }
   
   .thead-table th:nth-child(4) {
-    width: 16%;
+    width: 15%;
   }
   .thead-table th:nth-child(5) {
-    width: 12%;
+    width: 11%;
   }
   .thead-table th:nth-child(6) {
-    width: 10%;
+    width: 9%;
   }
   .thead-table th:nth-child(7) {
-    width: 10%;
+    width: 9%;
   }
   .thead-table th:nth-child(8) {
-    width: 18%;
+    width: 27%;
     text-align: center;
   }
 
@@ -204,21 +204,21 @@ export default {
     text-align: left;
   }
   .tbody-table td:nth-child(1) {
-    width: 4%;
+    width: 6%;
   }
   
   .tbody-table td:nth-child(2) {
-    width: 12%;
+    width: 8%;
   }
   .tbody-table td:nth-child(3) {
     width: 6%;
   }
   
   .tbody-table td:nth-child(4) {
-    width: 5%;
+    width: 6%;
   }
   .tbody-table td:nth-child(5) {
-    width: 5%;
+    width: 6%;
   }
   .tbody-table td:nth-child(6) {
     width: 4%;

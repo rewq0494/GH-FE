@@ -190,18 +190,18 @@ export default {
     box-shadow: 1px 1px 2px rgba(139, 104, 54, 0.079); */
   }
   .tbody-table td:nth-child(1) {
-    width: 20%;
+    width: 23%;
   }
   
   .tbody-table td:nth-child(2) {
-    width: 12%;
+    width: 11%;
   }
   .tbody-table td:nth-child(3) {
-    width: 15%;
+    width: 17%;
   }
   
   .tbody-table td:nth-child(4) {
-    width: 20%;
+    width: 16%;
   }
   .tbody-table td:nth-child(5) {
     width: 27%;

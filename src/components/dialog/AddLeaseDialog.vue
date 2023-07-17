@@ -7,7 +7,11 @@
         <h3>統編</h3>
         <input class="add-box" type="text" v-model="companyTaxId">
       </label>
-
+      
+      <label>
+        <h3>公司名稱</h3>
+        <input class="add-box" type="tel" v-model="paymentStatus">
+      </label>
       <label>
         <h3>起租日期</h3>
         <input class="add-box" type="text" v-model="startDate">
@@ -18,10 +22,10 @@
         <input class="add-box" type="text" v-model="endDate">
       </label>
 
-      <label>
+      <!-- <label>
         <h3>繳納狀態</h3>
         <input class="add-box" type="tel" v-model="paymentStatus">
-      </label>
+      </label> -->
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>
     <button class="btn-confirm" @click="handleConfirm">確定</button>
