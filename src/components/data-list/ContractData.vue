@@ -55,8 +55,8 @@
           <td>{{ member.startDate }}</td>
           <td>{{ member.endDate }}</td>
           <td>
-            <a :href="member.contractPDF" target="_blank">{{
-              member.contractPDF.substring(0, 37)
+            <a :href="member.contractPDF" target="_blank"><img src="../../assets/dialog-icon/pdf.png">{{
+              member.contractPDF.substring(0, 0)
             }}</a>
           </td>
           <td>
@@ -149,6 +149,12 @@ export default {
 </script>
 
 <style scoped>
+img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
 .thead-table {
   background-color: #373633;
   height: 50px;
