@@ -5,70 +5,40 @@
         <tr>
           <th @click="sortBy('id')" :class="{ active: sortKey === 'id' }">
             統編
-            <span
-              class="arrow"
-              :class="{
-                asc: sortKey === 'company' && sortOrders[sortKey] === 1,
-                dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
-              }"
-            ></span>
+            <span class="arrow" :class="{
+              asc: sortKey === 'company' && sortOrders[sortKey] === 1,
+              dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
+            }"></span>
           </th>
-          <th
-            @click="sortBy('company')"
-            :class="{ active: sortKey === 'company' }"
-          >
+          <th @click="sortBy('company')" :class="{ active: sortKey === 'company' }">
             公司
-            <span
-              class="arrow"
-              :class="{
-                asc: sortKey === 'company' && sortOrders[sortKey] === 1,
-                dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
-              }"
-            ></span>
+            <span class="arrow" :class="{
+              asc: sortKey === 'company' && sortOrders[sortKey] === 1,
+              dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
+            }"></span>
           </th>
-          <th
-            @click="sortBy('RPerson')"
-            :class="{ active: sortKey === 'RPerson' }"
-          >
+          <th @click="sortBy('RPerson')" :class="{ active: sortKey === 'RPerson' }">
             負責人
-            <span
-              class="arrow"
-              :class="{
-                asc: sortKey === 'company' && sortOrders[sortKey] === 1,
-                dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
-              }"
-            ></span>
+            <span class="arrow" :class="{
+              asc: sortKey === 'company' && sortOrders[sortKey] === 1,
+              dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
+            }"></span>
           </th>
-          <th
-            @click="sortBy('startDate')"
-            :class="{ active: sortKey === 'startDate' }"
-          >
+          <th @click="sortBy('startDate')" :class="{ active: sortKey === 'startDate' }">
             起租日期
-            <span
-              class="arrow"
-              :class="{
-                asc: sortKey === 'company' && sortOrders[sortKey] === 1,
-                dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
-              }"
-            ></span>
+            <span class="arrow" :class="{
+              asc: sortKey === 'company' && sortOrders[sortKey] === 1,
+              dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
+            }"></span>
           </th>
-          <th
-            @click="sortBy('endDate')"
-            :class="{ active: sortKey === 'endDate' }"
-          >
+          <th @click="sortBy('endDate')" :class="{ active: sortKey === 'endDate' }">
             結束日期
-            <span
-              class="arrow"
-              :class="{
-                asc: sortKey === 'company' && sortOrders[sortKey] === 1,
-                dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
-              }"
-            ></span>
+            <span class="arrow" :class="{
+              asc: sortKey === 'company' && sortOrders[sortKey] === 1,
+              dsc: sortKey === 'company' && sortOrders[sortKey] === -1,
+            }"></span>
           </th>
-          <th
-            @click="sortBy('contract')"
-            :class="{ active: sortKey === 'contract' }"
-          >
+          <th @click="sortBy('contract')" :class="{ active: sortKey === 'contract' }">
             合約
           </th>
           <th>編輯</th>
@@ -80,8 +50,8 @@
       <tbody>
         <tr v-for="member in filteredMembers" :key="member.companyTaxid">
           <td>{{ member.companyTaxid }}</td>
-          <td>{{ member.company }}</td>
-          <td>{{ member.RPerson }}</td>
+          <td>{{ member.company.companyName }}</td>
+          <td>{{ member.member.memberName }}</td>
           <td>{{ member.startDate }}</td>
           <td>{{ member.endDate }}</td>
           <td>
@@ -89,8 +59,12 @@
               member.contractPDF.substring(0, 37)
             }}</a>
           </td>
-          <td><EditContractButton /></td>
-          <td><DeleteMbButton :contractId="member.contractId" /></td>
+          <td>
+            <EditContractButton />
+          </td>
+          <td>
+            <DeleteMbButton :contractId="member.contractId" />
+          </td>
         </tr>
       </tbody>
     </table>
@@ -115,7 +89,7 @@ export default {
       sortKey: "",
       sortOrders: {
         company: 1,
-        RPerson: 1,
+        member: 1,
         startDate: 1,
         endDate: 1,
         contractPDF: 1,
@@ -124,7 +98,7 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:8081/contracts/contract").then((response) => {
+    axios.get("http://localhost:8081/contracts/getallcontract").then((response) => {
       this.members = response.data;
     });
   },
@@ -188,6 +162,7 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .tbody-table {
   background-color: #fdf4e6;
   text-align: center;
@@ -216,6 +191,7 @@ th:first-child {
 th:last-child {
   border-top-right-radius: 10px;
 }
+
 .thead-table th:nth-child(1) {
   width: 8%;
 }
@@ -223,6 +199,7 @@ th:last-child {
 .thead-table th:nth-child(2) {
   width: 28%;
 }
+
 .thead-table th:nth-child(3) {
   width: 10%;
 }
@@ -230,6 +207,7 @@ th:last-child {
 .thead-table th:nth-child(4) {
   width: 16%;
 }
+
 .thead-table th:nth-child(5) {
   width: 12%;
 }
@@ -238,10 +216,12 @@ th:last-child {
   width: 15%;
   text-align: center;
 }
+
 .thead-table th:nth-child(7) {
   width: 6%;
   text-align: center;
 }
+
 .thead-table th:nth-child(8) {
   width: 5%;
   text-align: center;
@@ -251,7 +231,8 @@ th:last-child {
   font-size: 14px;
   color: #706d6c;
   font-family: "微軟正黑體";
-  height: 10px; /* 添加行高样式 */
+  height: 10px;
+  /* 添加行高样式 */
   padding-left: 10px;
   min-width: 40px;
   text-align: left;
@@ -260,6 +241,7 @@ th:last-child {
     border-spacing: 5px;
     box-shadow: 1px 1px 2px rgba(139, 104, 54, 0.079); */
 }
+
 .tbody-table td:nth-child(1) {
   width: 12%;
 }
@@ -267,6 +249,7 @@ th:last-child {
 .tbody-table td:nth-child(2) {
   width: 28%;
 }
+
 .tbody-table td:nth-child(3) {
   width: 12%;
 }
@@ -274,6 +257,7 @@ th:last-child {
 .tbody-table td:nth-child(4) {
   width: 15%;
 }
+
 .tbody-table td:nth-child(5) {
   width: 15%;
 }
@@ -282,10 +266,12 @@ th:last-child {
   width: 12%;
   /* text-align: center; */
 }
+
 .tbody-table td:nth-child(7) {
   width: 5%;
   text-align: center;
 }
+
 .tbody-table td:nth-child(8) {
   width: 10%;
   text-align: center;
@@ -296,9 +282,11 @@ tr {
   height: 56px;
   box-shadow: 0px 1px 1px rgba(221, 185, 136, 0.538);
 }
+
 tr:first-child {
   border-top: none;
 }
+
 button {
   border: 0px;
   background-color: #fdf4e6;
@@ -309,6 +297,7 @@ button {
   width: 20px;
   height: 20px;
 }
+
 .delete-icon {
   width: 20px;
   height: 20px;
