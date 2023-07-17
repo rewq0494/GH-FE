@@ -10,9 +10,9 @@
       <label>
         <h3>教室</h3>
         <select class="add-box" v-model="meetingroomId" ref="meetingroomIdInput">
-          <option value="MR001">A</option>
-          <option value="MR002">B</option>
-          <option value="MR003">C</option>
+          <option value="MR001">MR001</option>
+          <option value="MR002">MR002</option>
+          <option value="MR003">MR003</option>
         </select>
       </label>
       <label>
@@ -22,9 +22,9 @@
       <label>
         <h3>時段</h3>
         <select class="add-box" v-model="rentalTime" ref="rentalTimeInput">
-          <option value="1">09:00-12:00</option>
-          <option value="2">12:00-15:00</option>
-          <option value="3">15:00-18:00</option>
+          <option value="09:00-12:00">09:00-12:00</option>
+          <option value="12:00-15:00">12:00-15:00</option>
+          <option value="15:00-18:00">15:00-18:00</option>
         </select>
       </label>
       <label>

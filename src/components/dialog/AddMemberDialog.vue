@@ -25,8 +25,8 @@
       </label>
 
       <label>
-        <h3>信箱</h3>
-        <input class="add-box" type="text">
+        <h3>地址</h3>
+        <input class="add-box" type="text" v-model="address">
       </label>
     </div>
     <button class="btn-close" @click="closeDialog">取消</button>
