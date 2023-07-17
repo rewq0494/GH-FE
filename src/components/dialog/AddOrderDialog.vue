@@ -84,11 +84,18 @@ export default {
       this.$emit('close');
     },
     handleConfirm() {
-  console.log('新增成功');
+  console.log('修改成功');
   this.$emit('confirm');
   this.showSuccessDialog = true;
+  setTimeout(() => {
+        this.closeSuccessDialog();
+      }, 1200);
+    },
+    closeSuccessDialog() {
+      this.showSuccessDialog = false;
+    },
 },
-  },
+  
   mounted() {
     onMounted(() => {
     flatpickr(this.$refs.datePickerInput, {

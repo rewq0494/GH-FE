@@ -21,16 +21,19 @@
     <button v-else class="btn-confirm" @click="confirmEdit">確認修改</button>
     <!-- <button class="btn-cancle" @click="cancleOrder">取消訂單</button> -->
     <CancleOrderButton/>
+    <EditSuccessDialog v-if="showSuccessDialog" @close="closeSuccessDialog" />
   </div>
 </template>
 
 <script>
 import CancleOrderButton from '../button/CanaleOrderButton.vue'
+import EditSuccessDialog from './EditSuccessDialog.vue';
 
 export default {
   emits: ['close', 'confirm','edit'],
   components: {
-    CancleOrderButton
+    CancleOrderButton,
+    EditSuccessDialog,
   },
   data() {
     return {
@@ -38,6 +41,7 @@ export default {
       deposit: '$2100',
       total: '$4700',
       showDialog: false,
+      showSuccessDialog: false,
       eventNameInput: '',
       editing: false,
       fields: [
@@ -132,6 +136,14 @@ export default {
       this.editing = false;
       this.$emit('confirm');
       this.$emit('confirm', this.eventName);
+      this.showSuccessDialog = true;
+      setTimeout(() => {
+        this.closeSuccessDialog();
+      }, 1200);
+    },
+    closeSuccessDialog() {
+      this.showSuccessDialog = false;
+    
     },
     cancleOrder(){
       
