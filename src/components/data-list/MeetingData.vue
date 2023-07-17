@@ -1,214 +1,110 @@
 
 <!-- 第二版有排序 -->
 <template>
-    <div >
-        <table class="thead-table">
-            <thead>
-                <tr>
-                  <th @click="sortBy('orderId')" :class="{ active: sortKey === 'orderId' }">訂單編號
-                      <span class="arrow" :class="{ 'asc': sortKey === 'date' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'date' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('date')" :class="{ active: sortKey === 'date' }">日期
-                    <span class="arrow" :class="{ 'asc': sortKey === 'date' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'date' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('time')" :class="{ active: sortKey === 'time' }">時間
-                        <span class="arrow" :class="{ 'asc': sortKey === 'date' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'date' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('eventName')" :class="{ active: sortKey === 'eventName' }">活動名稱
-                        <span class="arrow" :class="{ 'asc': sortKey === 'date' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'date' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('space')" :class="{ active: sortKey === 'space' }">場地
-                        <span class="arrow" :class="{ 'asc': sortKey === 'date' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'date' && sortOrders[sortKey] === -1 }"></span></th>
-                    <th @click="sortBy('contentPerson')" :class="{ active: sortKey === 'contentPerson' }">聯絡人</th>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
-        <table class="tbody-table">
-            <tbody>
-                <tr v-for="member in filteredMembers" :key="member.id">
-                    <td>{{ member.orderId }}</td>
-                    <td>{{ member.date }}</td>
-                    <td>{{ member.time }}</td>
-                    <td>{{ member.eventName }}</td>
-                    <td>{{ member.space }}</td>
-                    <td>{{ member.contentPerson }}</td>
-                    <td> <OrderInfoButton/></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div>
+    <table class="thead-table">
+      <thead>
+        <tr>
+          <th @click="sortBy('tradeNo')" :class="{ active: sortKey === 'tradeNo' }">訂單編號
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'tradeNo' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'tradeNo' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('rentalDate')" :class="{ active: sortKey === 'rentalDate' }">日期
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'rentalDate' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'rentalDate' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('rentalTime')" :class="{ active: sortKey === 'rentalTime' }">時間
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'rentalTime' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'rentalTime' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('activityName')" :class="{ active: sortKey === 'activityName' }">活動名稱
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'activityName' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'activityName' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('meetingroomId')" :class="{ active: sortKey === 'meetingroomId' }">場地
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'meetingroomId' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'meetingroomId' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th @click="sortBy('memberName')" :class="{ active: sortKey === 'memberName' }">聯絡人
+            <span class="arrow"
+              :class="{ 'asc': sortKey === 'memberName' && sortOrders[sortKey] === 1, 'dsc': sortKey === 'memberName' && sortOrders[sortKey] === -1 }"></span>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <table class="tbody-table">
+      <tbody>
+        <tr v-for="order in filteredOrders" :key="order.tradeNo">
+          <td>{{ order.tradeNo }}</td>
+          <td>{{ formatRentalDate(order.rentalDate) }}</td>
+          <td>{{ order.rentalTime }}</td>
+          <td>{{ order.activityName }}</td>
+          <td>{{ order.meetingroomId }}</td>
+          <td>{{ order.memberName }}</td>
+          <td>
+            <OrderInfoButton :tradeNo="order.tradeNo" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
-  
+
 <script>
-  import OrderInfoButton from '../button/OrderInfoButton.vue';
-  export default {
-    props: {
-    filterKey: String,
-  },
-  components:{
+import OrderInfoButton from '../button/OrderInfoButton.vue';
+import moment from 'moment';
+
+export default {
+  components: {
     OrderInfoButton,
   },
-    data() {
-      return {
-        members: [
-        {
-        "orderId": "2064856",
-        "date": "2021/09/17",
-        "time": "09:00-12:00",
-        "eventName": "光明高中2022音樂會",
-        "space": "A",
-        "contentPerson": "小飛象",
-        "company": "美商迪士尼科技股份有限公司",
-
-      },
-      {
-        "orderId": "9418502",
-        "date": "2021/01/01",
-        "time": "09:00-12:00",
-        "eventName": "矯正署毒害防治教育宣導",
-        "space": "B",
-        "contentPerson": "布丁狗",
-        "company": "美商皮克斯有限公司",
-
-      },
-      {
-        "orderId": "5438504",
-        "date": "2021/02/15",
-        "time": "09:00-12:00",
-        "eventName": "蘋果年度新品發表",
-        "space": "C",
-        "contentPerson": "庫洛米",
-        "company": "美商幼幼有限公司",
-
-      },
-      {
-        "orderId": "6458501",
-        "date": "2021/03/10",
-        "time": "09:00-12:00",
-        "eventName": "藝術插花課程",
-        "space": "A",
-        "contentPerson": "史奴比",
-        "company": "美商默默科技有限公司",
-
-      },
-      {
-        "orderId": "2628502",
-        "date": "2021/04/20",
-        "time": "2021/04/20",
-        "eventName": "教育部校園安全研討會",
-        "space": "B",
-        "contentPerson": "莉露姆",
-        "company": "東森有限公司",
-
-      },
-      {
-        "orderId": "1948503",
-        "date": "2021/05/05",
-        "time": "15:00-18:00",
-        "eventName": "青年創業經驗分享講座",
-        "space": "C",
-        "contentPerson": "小小兵",
-        "company": "GTV有限公司",
-
-      },
-      {
-        "orderId": "7660851",
-        "date": "2021/06/15",
-        "time": "12:00-15:00",
-        "eventName": "科學實驗展覽",
-        "space": "A",
-        "contentPerson": "濕紙巾",
-        "company": "緯來有限公司",
-
-      },
-      {
-        "orderId": "6138504",
-        "date": "2021/07/25",
-        "time": "15:00-18:00",
-        "eventName": "健康生活講座",
-        "space": "B",
-        "contentPerson": "獅子完",
-        "company": "HBO有限公司",
-
-      },
-      {
-        "orderId": "6450855",
-        "date": "2021/08/08",
-        "time": "15:00-18:00",
-        "eventName": "美術作品展示",
-        "space": "C",
-        "contentPerson": "哈特利",
-        "company": "緯來有限公司",
-
-      },
-      {
-        "orderId": "4338504",
-        "date": "2021/09/18",
-        "time": "12:00-15:00",
-        "eventName": "人工智慧應用研討會",
-        "space": "A",
-        "contentPerson": "葉大熊",
-        "company": "HBO有限公司",
-
-      },
-      {
-        "orderId": "0857505",
-        "date": "2021/10/30",
-        "time": "12:00-18:00",
-        "eventName": "光明高中2022音樂會",
-        "space": "B",
-        "contentPerson": "小叮噹",
-        "company": "光泉股份有限公司",
-
-      }
-
-      ],
-        sortKey: '',
-        sortOrders: {
-            date: 1,
-            name: 1,
-            phone: 1,
-            email: 1,
-            address: 1
-        },
-        searchQuery: ''
-      };
+  props: {
+    data: {
+      type: Array,
+      required: true,
     },
-    computed: {
-    filteredMembers() {
-      const filterKey = this.filterKey.toLowerCase();
-      let data = this.members;
+  },
+  data() {
+    return {
+      sortKey: '',
+      sortOrders: {
+        tradeNo: 1,
+        rentalDate: 1,
+        rentalTime: 1,
+        activityName: 1,
+        meetingroomId: 1,
+        memberName: 1,
+      },
+    };
+  },
+  computed: {
+    filteredOrders() {
+      return this.data.slice().sort((a, b) => {
+        const sortMultiplier = this.sortOrders[this.sortKey] > 0 ? 1 : -1;
+        const valueA = a[this.sortKey];
+        const valueB = b[this.sortKey];
 
-      if (filterKey) {
-        data = data.filter((row) => {
-          return Object.keys(row).some((key) => {
-            return String(row[key]).toLowerCase().includes(filterKey);
-          });
-        });
-      }
-
-      if (this.sortKey) {
-        const sortKey = this.sortKey;
-        const sortMultiplier = this.sortOrders[sortKey] > 0 ? 1 : -1;
-        data = data.slice().sort((a, b) => {
-          const valueA = a[sortKey];
-          const valueB = b[sortKey];
-
-          if (typeof valueA === 'string') {
-            return valueA.localeCompare(valueB) * sortMultiplier;
-          } else {
-            return (valueA - valueB) * sortMultiplier;
-          }
-        });
-      }
-
-      return data;
-    }
+        if (typeof valueA === 'string') {
+          return valueA.localeCompare(valueB) * sortMultiplier;
+        } else {
+          return (valueA - valueB) * sortMultiplier;
+        }
+      });
+    },
   },
   methods: {
     sortBy(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] === 1 ? -1 : 1;
     },
-  }
-};
+    formatRentalDate(date) {
+      const formattedDate = moment(date).format('YYYY-MM-DD');
+      return formattedDate;
+    }
+
+  },
+}
 </script>
   
 <style scoped>
@@ -293,7 +189,7 @@
   .tbody-table td:nth-child(1) {
     width: 2%;
   }
-  
+
   .tbody-table td:nth-child(2) {
     width: 7%;
   }

@@ -49,7 +49,7 @@ export default {
 </script>
 
   <style  scoped>
- 
+
   .add-btn{
     font-size: 14px;
       width: 90px;
@@ -87,7 +87,7 @@ export default {
   }
 
 
-  
+
   .icon-add{
       width: 18px;
       height: 18px;
