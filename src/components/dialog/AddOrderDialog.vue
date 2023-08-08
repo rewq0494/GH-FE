@@ -1,6 +1,7 @@
 <template>
   <div class="overlay"></div>
   <div class="add-order-dialog">
+
     <h2>新增訂單</h2>
     <div class="add-area">
       <label>
@@ -238,6 +239,7 @@ export default {
   color: #777777;
   font-size: 14px;
   padding-left: 10px;
+  cursor: pointer;
 }
 #class-box{
   width: 232px;

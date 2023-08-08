@@ -7,6 +7,7 @@
  <AddButton />
  <SearchButton @search="updateSearchQuery" />
  <div class="main-section">
+  <loading class="loading" v-if="isLoading" />
    <MemberData :members="members" :filterKey="searchQuery" />
  </div>
  <AddMemberDialog v-if="showDialog" @close="closeDialog" />
@@ -18,12 +19,14 @@ import AddButton from '../components/button/AddButton.vue';
 import MemberData from '../components/data-list/MemberData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
 import SidebarMenu from '../components/SidebarMenu.vue'
+import Loading from '../components/loading/LoadingOverlay.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
  name: 'MemberList',
  components: {
+   Loading,
    SearchButton,
    AddButton,
    MemberData,
@@ -32,6 +35,7 @@ export default {
  },
  data() {
    return {
+     isLoading: false, // 控制 loading 動畫的顯示
      showDialog: false,
      searchQuery: '',
      members: []
@@ -45,6 +49,7 @@ export default {
      this.searchQuery = searchTerm;
    },
    fetchData() {
+    this.isLoading = true; // 啟用 loading 動畫
      axios
        .get('/company')
        .then(response => {
@@ -52,7 +57,10 @@ export default {
        })
        .catch(error => {
          console.error(error);
-       });
+       })
+       .finally(() => {
+          this.isLoading = false; // 關閉 loading 動畫
+        });
    },
  },
 };
@@ -97,5 +105,9 @@ export default {
  margin-right: 70px;
  color: #FFE4D0;
 }
-
+.loading{
+  position: absolute;
+  top: 200px;
+  left: 45%;
+}
 </style>

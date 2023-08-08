@@ -3,6 +3,7 @@
   <div class="title">租賃狀況</div>
   <SearchButton @search="updateSearchQuery" />
   <div class="main-section">
+    <loading class="loading" v-if="isLoading"  />
     <LeaseData :contracts="contracts" :filter-key="searchQuery" />
   </div>
   <AddMemberDialog v-if="showDialog" @close="closeDialog"/>
@@ -13,12 +14,14 @@ import SearchButton from '../components/button/SearchButton.vue';
 import LeaseData from '../components/data-list/LeaseData.vue';
 import AddMemberDialog from '../components/dialog/AddMemberDialog.vue';
 import SidebarMenu from '../components/SidebarMenu.vue';
+import Loading from '../components/loading/LoadingOverlay.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
   name: 'MemberList',
   components: {
+    Loading,
     SearchButton,
     LeaseData,
     AddMemberDialog,
@@ -26,6 +29,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false, // 控制 loading 動畫的顯示
       showDialog: false,
       searchQuery: '',
       contracts: [],
@@ -36,6 +40,7 @@ export default {
       this.searchQuery = searchTerm;
     },
     fetchData() {
+      this.isLoading = true; // 啟用 loading 動畫
       axios
         .get('/contract')
         .then(response => {
@@ -44,6 +49,9 @@ export default {
         })
         .catch(error => {
           console.error(error);
+        })
+        .finally(() => {
+          this.isLoading = false; // 關閉 loading 動畫
         });
     },
   },
@@ -91,5 +99,9 @@ margin-left: 50px;
 margin-right: 70px;
 color: #FFE4D0;
 }
-
+.loading{
+  position: absolute;
+  top: 200px;
+  left: 45%;
+}
 </style>

@@ -5,6 +5,7 @@
     <AddOrderButton />
     <SearchButton @search="updateSearchQuery" />
     <div class="main-section">
+      <loading class="loading" v-if="isLoading" />
       <MeetingData :data="filteredOrders" :sort-key="sortKey" :sort-orders="sortOrders" @sort-by-key="sortBy"
         :filter-key="searchQuery" />
     </div>
@@ -17,11 +18,13 @@ import SearchButton from '../components/button/SearchButton.vue';
 import MeetingData from '../components/data-list/MeetingData.vue';
 import SidebarMenu from '../components/SidebarMenu.vue'
 import AddOrderButton from '../components/button/AddOrderButton.vue'
+import Loading from '../components/loading/LoadingOverlay.vue';
 import axios from 'axios';
 
 export default {
   name: 'MemberList',
   components: {
+    Loading,
     SearchButton,
     MeetingData,
     SidebarMenu,
@@ -29,6 +32,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false, // 控制 loading 動畫的顯示
       orders: [], // 存儲會議數據
       filteredOrders: [], // 經過搜索和排序後的訂單數據
       searchQuery: '',
@@ -46,8 +50,9 @@ export default {
   },
   methods: {
     searchAllOrders() {
+      this.isLoading = true; // 啟用 loading 動畫
       axios
-        .get('http://localhost:8080/meetings')
+      .get('http://localhost:8080/meetings')
         .then((response) => {
           // 處理成功回應的訂單資料
           const orderData = response.data;
@@ -66,7 +71,13 @@ export default {
         .catch((error) => {
           // 處理錯誤
           console.error(error);
+        })
+        .finally(() => {
+          console.log("渲染完成")
+          this.isLoading = false; // 關閉 loading 動畫
+          this.$forceUpdate()//強制刷新頁面
         });
+        
     },
     updateSearchQuery(query) {
       this.searchQuery = query;
@@ -130,5 +141,11 @@ font-size: 16px;
 margin-left: 50px;
 margin-right: 70px;
 color: #FFE4D0;
+}
+.loading{
+  position: absolute;
+  top: 200px;
+  left: 45%;
+z-index: 99999999999;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="overlay"></div>
   <div class="meetint-info-dialog">
+
     <h2>訂單資訊</h2>
     <button class="btn-close" @click="closeDialog">╳</button>
     <div class="info-area">
@@ -161,6 +162,7 @@ export default {
           // 處理更新失敗
           console.error(error);
         });
+        
     },
     cancleOrder() {
 
@@ -200,6 +202,7 @@ export default {
 * {
   font-family: '微軟正黑體';
 }
+
 
 .overlay {
   position: fixed;

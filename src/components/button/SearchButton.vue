@@ -1,6 +1,7 @@
 <template>
   <div class="search">
-    <input class="search-box" type="text" v-model="searchTerm" placeholder="搜尋">
+    <input class="search-box" type="text" v-model="searchTerm" placeholder="搜尋"
+    @input="searchClick">
     <button type="button" id="search-btn" @click="searchClick">
       <img class="icon-search" src="../../assets/button-icon/search.png">
     </button>
